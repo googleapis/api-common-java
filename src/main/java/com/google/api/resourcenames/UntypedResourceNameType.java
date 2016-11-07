@@ -31,6 +31,7 @@
 
 package com.google.api.resourcenames;
 
+/** The ResourceNameType for {@link UntypedResourceName}. */
 public class UntypedResourceNameType implements ResourceNameType {
 
   private static UntypedResourceNameType instance = new UntypedResourceNameType();

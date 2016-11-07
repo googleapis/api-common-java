@@ -33,6 +33,11 @@ package com.google.api.resourcenames;
 
 import com.google.common.base.Preconditions;
 
+/**
+ * A class to represent a {@link ResourceName} with an unknown format. This class in intended to
+ * support the case of a resource name string in an unexpected format - generated resource name
+ * classes with known formats should be preferred where possible.
+ */
 public class UntypedResourceName implements ResourceName {
 
   private final String rawValue;

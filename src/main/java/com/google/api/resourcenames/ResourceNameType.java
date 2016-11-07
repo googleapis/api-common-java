@@ -31,4 +31,8 @@
 
 package com.google.api.resourcenames;
 
+/**
+ * An interface that resource name types must implement. A ResourceNameType class is required for
+ * any class that implements {@link ResourceName}.
+ */
 public interface ResourceNameType {}
