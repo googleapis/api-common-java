@@ -42,7 +42,7 @@ import org.junit.runners.JUnit4;
  * templates, not much needs to be done here.
  */
 @RunWith(JUnit4.class)
-public class ResourceNameTest {
+public class TemplatedResourceNameTest {
 
   @Test
   public void resourceNameMethods() {
