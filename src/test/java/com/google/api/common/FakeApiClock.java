@@ -1,5 +1,5 @@
 /*
- * Copyright 20xx, Google Inc.
+ * Copyright 2016, Google Inc.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -28,3 +28,28 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+package com.google.api.common;
+
+import java.util.concurrent.TimeUnit;
+
+public class FakeApiClock implements ApiClock {
+  private volatile long currentNanoTime;
+
+  public FakeApiClock(long initialNanoTime) {
+    currentNanoTime = initialNanoTime;
+  }
+
+  @Override
+  public long nanoTime() {
+    return currentNanoTime;
+  }
+
+  @Override
+  public long millisTime() {
+    return TimeUnit.MILLISECONDS.convert(nanoTime(), TimeUnit.NANOSECONDS);
+  }
+
+  public void setCurrentNanoTime(long nanoTime) {
+    currentNanoTime = nanoTime;
+  }
+}

@@ -31,7 +31,7 @@
 
 package com.google.api.pathtemplate;
 
-import com.google.common.annotations.Beta;
+import com.google.api.common.BetaApi;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Sets;
@@ -62,7 +62,7 @@ import javax.annotation.Nullable;
  *   assert resourceName.parentName().toString().equals("shelves/s1/books");
  * </pre>
  */
-@Beta
+@BetaApi
 public class TemplatedResourceName implements Map<String, String> {
 
   // ResourceName Resolver
