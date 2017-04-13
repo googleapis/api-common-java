@@ -69,7 +69,7 @@ import javax.annotation.Nullable;
  * <p>Here is an example for a template using simple variables:
  * <pre>
  *   PathTemplate template = PathTemplate.create("v1/shelves/{shelf}/books/{book}");
- *   assert template.match("v2/shelves"} == false
+ *   assert template.matches("v2/shelves") == false;
  *   Map&lt;String, String&gt; values = template.match("v1/shelves/s1/books/b1");
  *   assert values.equals(ImmutableMap.of("shelf", s1", "book", "b1");
  *   assert template.instantiate(values).equals("v1/shelves/s1/books/b1");
