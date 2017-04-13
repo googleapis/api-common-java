@@ -420,8 +420,8 @@ public class PathTemplate {
    * All matched values will be properly unescaped using URL encoding rules (so long as URL encoding
    * has not been disabled by the {@link #createWithoutUrlEncoding} method).
    */
-  public ImmutableMap<String, String> validatedMatch(String path, String exceptionMessagePrefix) {
-    ImmutableMap<String, String> matchMap = match(path);
+  public Map<String, String> validatedMatch(String path, String exceptionMessagePrefix) {
+    Map<String, String> matchMap = match(path);
     if (matchMap == null) {
       throw new ValidationException(
           String.format(
@@ -463,7 +463,7 @@ public class PathTemplate {
    * has not been disabled by the {@link #createWithoutUrlEncoding} method).
    */
   @Nullable
-  public ImmutableMap<String, String> match(String path) {
+  public Map<String, String> match(String path) {
     return match(path, false);
   }
 
@@ -475,12 +475,12 @@ public class PathTemplate {
    * </pre>
    */
   @Nullable
-  public ImmutableMap<String, String> matchFromFullName(String path) {
+  public Map<String, String> matchFromFullName(String path) {
     return match(path, true);
   }
 
   // Matches a path.
-  private ImmutableMap<String, String> match(String path, boolean forceHostName) {
+  private Map<String, String> match(String path, boolean forceHostName) {
     // Quick check for trailing custom verb.
     Segment last = segments.get(segments.size() - 1);
     if (last.kind() == SegmentKind.CUSTOM_VERB) {

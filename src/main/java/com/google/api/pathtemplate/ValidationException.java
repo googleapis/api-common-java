@@ -32,7 +32,6 @@
 package com.google.api.pathtemplate;
 
 import com.google.common.annotations.Beta;
-import com.google.common.base.Supplier;
 import com.google.common.base.Suppliers;
 
 import java.util.Stack;
@@ -44,6 +43,10 @@ import java.util.Stack;
  */
 @Beta
 public class ValidationException extends IllegalArgumentException {
+
+  public interface Supplier<T> {
+    T get();
+  }
 
   private static ThreadLocal<Stack<Supplier<String>>> contextLocal = new ThreadLocal<>();
 
@@ -60,9 +63,16 @@ public class ValidationException extends IllegalArgumentException {
     stack.push(supplier);
   }
 
-  public static void pushCurrentThreadValidationContext(String context) {
-    pushCurrentThreadValidationContext(Suppliers.ofInstance(context));
+  public static void pushCurrentThreadValidationContext(final String context) {
+    pushCurrentThreadValidationContext(
+        new Supplier<String>() {
+          @Override
+          public String get() {
+            return context;
+          }
+        });
   }
+
   /**
    * Clears the validation context.
    */

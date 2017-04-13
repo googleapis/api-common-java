@@ -108,7 +108,7 @@ public class TemplatedResourceName implements Map<String, String> {
    * @throws ValidationException if the path does not match the template.
    */
   public static TemplatedResourceName create(PathTemplate template, String path) {
-    ImmutableMap<String, String> values = template.match(path);
+    Map<String, String> values = template.match(path);
     if (values == null) {
       throw new ValidationException("path '%s' does not match template '%s'", path, template);
     }
@@ -135,7 +135,7 @@ public class TemplatedResourceName implements Map<String, String> {
    */
   @Nullable
   public static TemplatedResourceName createFromFullName(PathTemplate template, String path) {
-    ImmutableMap<String, String> values = template.matchFromFullName(path);
+    Map<String, String> values = template.matchFromFullName(path);
     if (values == null) {
       return null;
     }
