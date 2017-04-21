@@ -60,5 +60,4 @@ import java.lang.annotation.Target;
   ElementType.TYPE
 })
 @Documented
-public @interface AccessibleForTesting {
-}
+public @interface AccessibleForTesting {}
