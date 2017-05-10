@@ -35,12 +35,12 @@ package com.google.api.core;
  *
  * <p>It is similar to Guava's {@code AsyncFunction}, redeclared so that Guava can be shaded.
  */
-public interface ApiAsyncFunction<F, T> {
+public interface ApiAsyncFunction<I, O> {
   /**
    * Returns an output Future to use in place of the given input. The output Future need not be
    * done, making AsyncFunction suitable for asynchronous derivations.
    *
    * <p>Throwing an exception from this method is equivalent to returning a failing Future.
    */
-  ApiFuture<T> apply(F input) throws Exception;
+  ApiFuture<O> apply(I input) throws Exception;
 }
