@@ -36,9 +36,7 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-/**
- * INTERNAL USE ONLY. Adapter from GAX ApiFuture to Guava ListenableFuture.
- */
+/** INTERNAL USE ONLY. Adapter from GAX ApiFuture to Guava ListenableFuture. */
 @InternalApi
 public class ApiFutureToListenableFuture<V> implements ListenableFuture<V> {
   private final ApiFuture<V> apiFuture;

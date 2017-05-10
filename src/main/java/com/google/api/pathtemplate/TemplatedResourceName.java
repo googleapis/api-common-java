@@ -68,13 +68,9 @@ public class TemplatedResourceName implements Map<String, String> {
   // ResourceName Resolver
   // =====================
 
-  /**
-   * Represents a resource name resolver which can be registered with this class.
-   */
+  /** Represents a resource name resolver which can be registered with this class. */
   public interface Resolver {
-    /**
-     * Resolves the resource name into a resource by calling the underlying API.
-     */
+    /** Resolves the resource name into a resource by calling the underlying API. */
     <T> T resolve(Class<T> resourceType, TemplatedResourceName name, @Nullable String version);
   }
 
@@ -91,8 +87,8 @@ public class TemplatedResourceName implements Map<String, String> {
       };
 
   /**
-   * Sets the resource name resolver which is used by the {@link #resolve(Class, String)} method.
-   * By default, no resolver is registered.
+   * Sets the resource name resolver which is used by the {@link #resolve(Class, String)} method. By
+   * default, no resolver is registered.
    */
   public static void registerResourceNameResolver(Resolver resolver) {
     resourceNameResolver = resolver;
@@ -179,31 +175,23 @@ public class TemplatedResourceName implements Map<String, String> {
     return Objects.hash(template, endpoint, values);
   }
 
-  /**
-   * Gets the template associated with this resource name.
-   */
+  /** Gets the template associated with this resource name. */
   public PathTemplate template() {
     return template;
   }
 
-  /**
-   * Checks whether the resource name has an endpoint.
-   */
+  /** Checks whether the resource name has an endpoint. */
   public boolean hasEndpoint() {
     return endpoint != null;
   }
 
-  /**
-   * Returns the endpoint of this resource name, or null if none is defined.
-   */
+  /** Returns the endpoint of this resource name, or null if none is defined. */
   @Nullable
   public String endpoint() {
     return endpoint;
   }
 
-  /**
-   * Returns a resource name with specified endpoint.
-   */
+  /** Returns a resource name with specified endpoint. */
   public TemplatedResourceName withEndpoint(String endpoint) {
     return new TemplatedResourceName(template, values, Preconditions.checkNotNull(endpoint));
   }
@@ -218,8 +206,8 @@ public class TemplatedResourceName implements Map<String, String> {
   }
 
   /**
-   * Returns true of the resource name starts with the parent resource name, i.e. is a child
-   * of the parent.
+   * Returns true of the resource name starts with the parent resource name, i.e. is a child of the
+   * parent.
    */
   public boolean startsWith(TemplatedResourceName parentName) {
     // TODO: more efficient implementation.
@@ -227,9 +215,9 @@ public class TemplatedResourceName implements Map<String, String> {
   }
 
   /**
-   * Attempts to resolve a resource name into a resource, by calling the associated API.
-   * The resource name must have an endpoint. An optional version can be specified to
-   * determine in which version of the API to call.
+   * Attempts to resolve a resource name into a resource, by calling the associated API. The
+   * resource name must have an endpoint. An optional version can be specified to determine in which
+   * version of the API to call.
    */
   public <T> T resolve(Class<T> resourceType, @Nullable String version) {
     Preconditions.checkArgument(hasEndpoint(), "Resource name must have an endpoint.");

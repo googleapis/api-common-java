@@ -33,18 +33,14 @@ package com.google.api.pathtemplate;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.truth.Truth;
-
+import java.util.Map;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-import java.util.Map;
-
-/**
- * Tests for {@link PathTemplate}.
- */
+/** Tests for {@link PathTemplate}. */
 @RunWith(JUnit4.class)
 public class PathTemplateTest {
 

@@ -37,7 +37,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
@@ -48,24 +47,24 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import javax.annotation.Nullable;
 
 /**
  * Represents a path template.
  *
- * <p>Templates use the syntax of the API platform; see the protobuf of HttpRule for
- * details. A template consists of a sequence of literals, wildcards, and variable bindings,
- * where each binding can have a sub-path. A string representation can be parsed into an
- * instance of {@link PathTemplate}, which can then be used to perform matching and instantiation.
+ * <p>Templates use the syntax of the API platform; see the protobuf of HttpRule for details. A
+ * template consists of a sequence of literals, wildcards, and variable bindings, where each binding
+ * can have a sub-path. A string representation can be parsed into an instance of {@link
+ * PathTemplate}, which can then be used to perform matching and instantiation.
  *
  * <p>Matching and instantiation deals with unescaping and escaping using URL encoding rules. For
- * example, if a template variable for a single segment is instantiated with a string like
- * {@code "a/b"}, the slash will be escaped to {@code "%2f"}. (Note that slash will not be escaped
- * for a multiple-segment variable, but other characters will). The literals in the template
- * itself are <em>not</em> escaped automatically, and must be already URL encoded.
+ * example, if a template variable for a single segment is instantiated with a string like {@code
+ * "a/b"}, the slash will be escaped to {@code "%2f"}. (Note that slash will not be escaped for a
+ * multiple-segment variable, but other characters will). The literals in the template itself are
+ * <em>not</em> escaped automatically, and must be already URL encoded.
  *
  * <p>Here is an example for a template using simple variables:
+ *
  * <pre>
  *   PathTemplate template = PathTemplate.create("v1/shelves/{shelf}/books/{book}");
  *   assert template.matches("v2/shelves") == false;
@@ -78,6 +77,7 @@ import javax.annotation.Nullable;
  * </pre>
  *
  * Templates can use variables which match sub-paths. Example:
+ *
  * <pre>
  *   PathTemplate template = PathTemplate.create("v1/{name=shelves/*&#47;books/*}"};
  *   assert template.match("v1/shelves/books/b1") == null;
@@ -86,9 +86,9 @@ import javax.annotation.Nullable;
  *   assert template.match("v1/shelves/s1/books/b1").equals(expectedValues);
  * </pre>
  *
- * Path templates can also be used with only wildcards. Each wildcard is associated
- * with an implicit variable {@code $n}, where n is the zero-based position of the
- * wildcard. Example:
+ * Path templates can also be used with only wildcards. Each wildcard is associated with an implicit
+ * variable {@code $n}, where n is the zero-based position of the wildcard. Example:
+ *
  * <pre>
  *   PathTemplate template = PathTemplate.create("shelves/*&#47;books/*"};
  *   assert template.match("shelves/books/b1") == null;
@@ -99,10 +99,11 @@ import javax.annotation.Nullable;
  *   assert values.equals(expectedValues);
  * </pre>
  *
- * Paths input to matching can use URL relative syntax to indicate a host name by prefixing the
- * host name, as in {@code //somewhere.io/some/path}. The host name is matched into the special
- * variable {@link #HOSTNAME_VAR}. Patterns are agnostic about host names, and the same pattern
- * can be used for URL relative syntax and simple path syntax:
+ * Paths input to matching can use URL relative syntax to indicate a host name by prefixing the host
+ * name, as in {@code //somewhere.io/some/path}. The host name is matched into the special variable
+ * {@link #HOSTNAME_VAR}. Patterns are agnostic about host names, and the same pattern can be used
+ * for URL relative syntax and simple path syntax:
+ *
  * <pre>
  *   PathTemplate template = PathTemplate.create("shelves/*"};
  *   Map&lt;String, String&gt; expectedValues = new HashMap&lt;&gt;();
@@ -114,14 +115,14 @@ import javax.annotation.Nullable;
  *   assert template.match("shelves/s1").equals(expectedValues);
  * </pre>
  *
- * For the representation of a <em>resource name</em> see {@link TemplatedResourceName}, which is based
- * on path templates.
+ * For the representation of a <em>resource name</em> see {@link TemplatedResourceName}, which is
+ * based on path templates.
  */
 public class PathTemplate {
 
   /**
-   * A constant identifying the special variable used for endpoint bindings in
-   * the result of {@link #matchFromFullName(String)}.
+   * A constant identifying the special variable used for endpoint bindings in the result of {@link
+   * #matchFromFullName(String)}.
    */
   public static final String HOSTNAME_VAR = "$hostname";
 
@@ -134,9 +135,7 @@ public class PathTemplate {
   // Helper Types
   // ============
 
-  /**
-   * Specifies a path segment kind.
-   */
+  /** Specifies a path segment kind. */
   enum SegmentKind {
     /** A literal path segment. */
     LITERAL,
@@ -157,37 +156,25 @@ public class PathTemplate {
     END_BINDING,
   }
 
-  /**
-   * Specifies a path segment.
-   */
+  /** Specifies a path segment. */
   @AutoValue
   abstract static class Segment {
 
-    /**
-     * A constant for the WILDCARD segment.
-     */
+    /** A constant for the WILDCARD segment. */
     private static final Segment WILDCARD = create(SegmentKind.WILDCARD, "*");
 
-    /**
-     * A constant for the PATH_WILDCARD segment.
-     */
+    /** A constant for the PATH_WILDCARD segment. */
     private static final Segment PATH_WILDCARD = create(SegmentKind.PATH_WILDCARD, "**");
 
-    /**
-     * A constant for the END_BINDING segment.
-     */
+    /** A constant for the END_BINDING segment. */
     private static final Segment END_BINDING = create(SegmentKind.END_BINDING, "");
 
-    /**
-     * Creates a segment of given kind and value.
-     */
+    /** Creates a segment of given kind and value. */
     private static Segment create(SegmentKind kind, String value) {
       return new AutoValue_PathTemplate_Segment(kind, value);
     }
 
-    /**
-     * The path segment kind.
-     */
+    /** The path segment kind. */
     abstract SegmentKind kind();
 
     /**
@@ -196,9 +183,7 @@ public class PathTemplate {
      */
     abstract String value();
 
-    /**
-     * Returns true of this segment is one of the wildcards,
-     */
+    /** Returns true of this segment is one of the wildcards, */
     boolean isAnyWildcard() {
       return kind() == SegmentKind.WILDCARD || kind() == SegmentKind.PATH_WILDCARD;
     }
@@ -269,9 +254,7 @@ public class PathTemplate {
     this.urlEncoding = urlEncoding;
   }
 
-  /**
-   * Returns the set of variable names used in the template.
-   */
+  /** Returns the set of variable names used in the template. */
   public Set<String> vars() {
     return bindings.keySet();
   }
@@ -320,7 +303,9 @@ public class PathTemplate {
   }
 
   /**
-   * Returns a path template for the sub-path of the given variable. Example: <pre>
+   * Returns a path template for the sub-path of the given variable. Example:
+   *
+   * <pre>
    *   PathTemplate template = PathTemplate.create("v1/{name=shelves/*&#47;books/*}");
    *   assert template.subTemplate("name").toString().equals("shelves/*&#47;books/*");
    * </pre>
@@ -352,16 +337,12 @@ public class PathTemplate {
         String.format("Variable '%s' is undefined in template '%s'", varName, this.toRawString()));
   }
 
-  /**
-   * Returns true of this template ends with a literal.
-   */
+  /** Returns true of this template ends with a literal. */
   public boolean endsWithLiteral() {
     return segments.get(segments.size() - 1).kind() == SegmentKind.LITERAL;
   }
 
-  /**
-   * Returns true of this template ends with a custom verb.
-   */
+  /** Returns true of this template ends with a custom verb. */
   public boolean endsWithCustomVerb() {
     return segments.get(segments.size() - 1).kind() == SegmentKind.CUSTOM_VERB;
   }
@@ -417,7 +398,9 @@ public class PathTemplate {
    * <p>See the {@link PathTemplate} class documentation for examples.
    *
    * <p>For free wildcards in the template, the matching process creates variables named '$n', where
-   * 'n' is the wildcard's position in the template (starting at n=0). For example: <pre>
+   * 'n' is the wildcard's position in the template (starting at n=0). For example:
+   *
+   * <pre>
    *   PathTemplate template = PathTemplate.create("shelves/*&#47;books/*");
    *   Map&lt;String, String&gt; expectedValues = new HashMap&lt;&gt;();
    *   expectedValues.put("$0", "s1");
@@ -448,9 +431,7 @@ public class PathTemplate {
     return matchMap;
   }
 
-  /**
-   * Returns true if the template matches the path.
-   */
+  /** Returns true if the template matches the path. */
   public boolean matches(String path) {
     return match(path) != null;
   }
@@ -466,7 +447,9 @@ public class PathTemplate {
    * <p>See the {@link PathTemplate} class documentation for examples.
    *
    * <p>For free wildcards in the template, the matching process creates variables named '$n', where
-   * 'n' is the wildcard's position in the template (starting at n=0). For example: <pre>
+   * 'n' is the wildcard's position in the template (starting at n=0). For example:
+   *
+   * <pre>
    *   PathTemplate template = PathTemplate.create("shelves/*&#47;books/*");
    *   Map&lt;String, String&gt; expectedValues = new HashMap&lt;&gt;();
    *   expectedValues.put("$0", "s1");
@@ -489,7 +472,9 @@ public class PathTemplate {
 
   /**
    * Matches the path, where the first segment is interpreted as the host name regardless of whether
-   * it starts with '//' or not. Example: <pre>
+   * it starts with '//' or not. Example:
+   *
+   * <pre>
    *   Map&lt;String, String&gt; expectedValues = new HashMap&lt;&gt;();
    *   expectedValues.put(HOSTNAME_VAR, "//somewhere.io");
    *   expectedValues.put("name", "shelves/s1");
@@ -626,9 +611,7 @@ public class PathTemplate {
     return instantiate(values, false);
   }
 
-  /**
-   * Shortcut for {@link #instantiate(Map)} with a vararg parameter for keys and values.
-   */
+  /** Shortcut for {@link #instantiate(Map)} with a vararg parameter for keys and values. */
   public String instantiate(String... keysAndValues) {
     ImmutableMap.Builder<String, String> builder = ImmutableMap.builder();
     for (int i = 0; i < keysAndValues.length; i += 2) {
@@ -639,7 +622,9 @@ public class PathTemplate {
 
   /**
    * Same like {@link #instantiate(Map)} but allows for unbound variables, which are substituted
-   * using their original syntax. Example: <pre>
+   * using their original syntax. Example:
+   *
+   * <pre>
    *   PathTemplate template = PathTemplate.create("v1/shelves/{shelf}/books/{book}");
    *   Map&lt;String, String&gt; partialMap = new HashMap&lt;&gt;();
    *   partialMap.put("shelf", "s1");
@@ -946,17 +931,15 @@ public class PathTemplate {
   // Equality and String Conversion
   // ==============================
 
-  /**
-   * Returns a pretty version of the template as a string.
-   */
+  /** Returns a pretty version of the template as a string. */
   @Override
   public String toString() {
     return toSyntax(segments, true);
   }
 
   /**
-   * Returns a raw version of the template as a string. This renders the template in its
-   * internal, normalized form.
+   * Returns a raw version of the template as a string. This renders the template in its internal,
+   * normalized form.
    */
   public String toRawString() {
     return toSyntax(segments, false);
