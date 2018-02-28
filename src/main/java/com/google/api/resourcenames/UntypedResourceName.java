@@ -82,8 +82,8 @@ public class UntypedResourceName implements ResourceName {
     return UntypedResourceNameType.instance();
   }
 
-  @Override
   /* Returns a map with an empty String as the sole key, which maps to the raw value of this ResourceName. */
+  @Override
   public Map<String, String> getFieldValuesMap() {
     if (fieldValuesMap != null) {
       return fieldValuesMap;
@@ -92,10 +92,10 @@ public class UntypedResourceName implements ResourceName {
     return fieldValuesMap;
   }
 
+  /* Returns the raw value of this ResourceName iff fieldName.equals(""), else returns null. */
   @Override
-  /* Returns the raw value of this ResourceName, regardless of the fieldName parameter. */
   public String getFieldValue(String fieldName) {
-    return rawValue;
+    return fieldValuesMap.get("");
   }
 
   @Override
