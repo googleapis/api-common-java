@@ -41,18 +41,19 @@ public interface ResourceName {
   /**
    * Return the map of each field name to its value.
    */
-  public Map<String, String> getFieldValuesMap();
+  Map<String, String> getFieldValuesMap();
 
   /**
-   * Return the String value of the field with name fieldName. Returns null if the fieldName was not found.
+   * Return the String value of the field with name fieldName. Returns null if the fieldName was not
+   * found.
    */
-  public String getFieldValue(String fieldName);
-  
+  String getFieldValue(String fieldName);
+
   /**
    * The ResourceNameType of the resource name object.
    *
    * @deprecated With Oneof types being converted to use inheritance, this is no longer necessary.
    */
   @Deprecated
-  public ResourceNameType getType();
+  ResourceNameType getType();
 }
