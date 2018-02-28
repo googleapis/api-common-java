@@ -85,10 +85,13 @@ public class UntypedResourceName implements ResourceName {
   /* Returns a map with an empty String as the sole key, which maps to the raw value of this ResourceName. */
   @Override
   public Map<String, String> getFieldValuesMap() {
-    if (fieldValuesMap != null) {
-      return fieldValuesMap;
+    if (fieldValuesMap == null) {
+      synchronized (this) {
+        if (fieldValuesMap == null) {
+          fieldValuesMap = ImmutableMap.of("", rawValue);
+        }
+      }
     }
-    fieldValuesMap = ImmutableMap.of("", rawValue);
     return fieldValuesMap;
   }
 
