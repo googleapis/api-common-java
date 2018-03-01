@@ -36,5 +36,5 @@ import com.google.api.core.BetaApi;
 public interface ResourceNameFactory<T extends ResourceName> {
 
   /* Create a new ResourceName from a formatted String representing a ResourceName. */
-  T parseFrom(String formattedString);
+  T parse(String formattedString);
 }
