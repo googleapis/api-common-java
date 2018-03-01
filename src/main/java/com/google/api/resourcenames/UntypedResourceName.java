@@ -61,10 +61,10 @@ public class UntypedResourceName implements ResourceName {
   }
 
   public static boolean isParsableFrom(String formattedString) {
-    return true;
+    return formattedString != null;
   }
 
-  /* Returns a map with an empty String as the sole key, which maps to the raw value of this ResourceName. */
+  /* Returns a map with an empty String "" as the sole key, which maps to the raw value of this ResourceName. */
   @Override
   public Map<String, String> getFieldValuesMap() {
     if (fieldValuesMap == null) {
