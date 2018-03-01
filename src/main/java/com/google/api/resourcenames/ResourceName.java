@@ -48,12 +48,4 @@ public interface ResourceName {
    * found.
    */
   String getFieldValue(String fieldName);
-
-  /**
-   * The ResourceNameType of the resource name object.
-   *
-   * @deprecated With Oneof types being converted to use inheritance, this is no longer necessary.
-   */
-  @Deprecated
-  ResourceNameType getType();
 }

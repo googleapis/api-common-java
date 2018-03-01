@@ -52,14 +52,6 @@ public class UntypedResourceName implements ResourceName {
     this.rawValue = Preconditions.checkNotNull(rawValue);
   }
 
-  /**
-   * @deprecated use {@link #of(ResourceName)} instead.
-   */
-  @Deprecated
-  public static UntypedResourceName from(ResourceName resourceName) {
-    return new UntypedResourceName(resourceName.toString());
-  }
-
   public static UntypedResourceName of(ResourceName resourceName) {
     return new UntypedResourceName(resourceName.toString());
   }
@@ -70,16 +62,6 @@ public class UntypedResourceName implements ResourceName {
 
   public static boolean isParsableFrom(String formattedString) {
     return true;
-  }
-
-  /*
-   * @deprecated With Oneof types being converted to use inheritance, this is
-   * no longer necessary.
-   */
-  @Override
-  @Deprecated
-  public ResourceNameType getType() {
-    return UntypedResourceNameType.instance();
   }
 
   /* Returns a map with an empty String as the sole key, which maps to the raw value of this ResourceName. */
