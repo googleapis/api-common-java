@@ -80,7 +80,7 @@ public class UntypedResourceName implements ResourceName {
   /* Returns the raw value of this ResourceName iff fieldName.equals(""), else returns null. */
   @Override
   public String getFieldValue(String fieldName) {
-    return fieldValuesMap.get("");
+    return getFieldValuesMap().get("");
   }
 
   @Override
