@@ -46,6 +46,13 @@ import javax.annotation.Nullable;
 public final class ApiFutures {
   private ApiFutures() {}
 
+  /*
+   * @deprecated Use {@linkplain #addCallback(ApiFuture, ApiFutureCallback, Executor) the
+   * overload that requires an executor}. For identical behavior, pass {@link
+   * com.google.common.util.concurrent.MoreExecutors#directExecutor}, but consider whether
+   * another executor would be safer.
+   */
+  @Deprecated
   public static <V> void addCallback(
       final ApiFuture<V> future, final ApiFutureCallback<? super V> callback) {
     addCallback(future, callback, directExecutor());
@@ -69,10 +76,25 @@ public final class ApiFutures {
         executor);
   }
 
+  /*
+   * @deprecated Use {@linkplain #catching(ApiFuture, Class, ApiFunction, Executor) the
+   * overload that requires an executor}. For identical behavior, pass {@link
+   * com.google.common.util.concurrent.MoreExecutors#directExecutor}, but consider whether
+   * another executor would be safer.
+   */
+  @Deprecated
   public static <V, X extends Throwable> ApiFuture<V> catching(
       ApiFuture<? extends V> input,
       Class<X> exceptionType,
       ApiFunction<? super X, ? extends V> callback) {
+    return catching(input, exceptionType, callback, directExecutor());
+  }
+
+  public static <V, X extends Throwable> ApiFuture<V> catching(
+      ApiFuture<? extends V> input,
+      Class<X> exceptionType,
+      ApiFunction<? super X, ? extends V> callback,
+      Executor executor) {
     ListenableFuture<V> catchingFuture =
         Futures.catching(
             listenableFutureForApiFuture(input),
@@ -94,6 +116,13 @@ public final class ApiFutures {
     return new ListenableFutureToApiFuture<V>(Futures.<V>immediateCancelledFuture());
   }
 
+  /*
+   * @deprecated Use {@linkplain #transform(ApiFuture, ApiFunction, Executor) the
+   * overload that requires an executor}. For identical behavior, pass {@link
+   * com.google.common.util.concurrent.MoreExecutors#directExecutor}, but consider whether
+   * another executor would be safer.
+   */
+  @Deprecated
   public static <V, X> ApiFuture<X> transform(
       ApiFuture<? extends V> input, final ApiFunction<? super V, ? extends X> function) {
     return transform(input, function, directExecutor());
@@ -122,7 +151,13 @@ public final class ApiFutures {
                   }
                 })));
   }
-
+  /*
+   * @deprecated Use {@linkplain #transformAsync(ApiFuture, ApiFunction, Executor) the
+   * overload that requires an executor}. For identical behavior, pass {@link
+   * com.google.common.util.concurrent.MoreExecutors#directExecutor}, but consider whether
+   * another executor would be safer.
+   */
+  @Deprecated
   public static <I, O> ApiFuture<O> transformAsync(
       ApiFuture<I> input, final ApiAsyncFunction<I, O> function) {
     return transformAsync(input, function, directExecutor());
