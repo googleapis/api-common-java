@@ -551,7 +551,7 @@ public class PathTemplate {
       String hostName = input.get(inPos++);
       if (withHostName) {
         // Put the // back, so we can distinguish this case from forceHostName.
-        hostName = "//" + hostName;
+        hostName = matcher.group(0) + hostName;
       }
       values.put(HOSTNAME_VAR, hostName);
     }
