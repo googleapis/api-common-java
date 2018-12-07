@@ -84,6 +84,16 @@ public class PathTemplateTest {
   }
 
   @Test
+  public void matchWithHostNameAndProtocol() {
+    PathTemplate template = PathTemplate.create("buckets/*/objects/*");
+    Map<String, String> match = template.match("http://somewhere.io/buckets/b/objects/o");
+    Truth.assertThat(match).isNotNull();
+    Truth.assertThat(match.get(PathTemplate.HOSTNAME_VAR)).isEqualTo("http://somewhere.io");
+    Truth.assertThat(match.get("$0")).isEqualTo("b");
+    Truth.assertThat(match.get("$1")).isEqualTo("o");
+  }
+
+  @Test
   public void matchWithCustomMethod() {
     PathTemplate template = PathTemplate.create("buckets/*/objects/*:custom");
     Map<String, String> match = template.match("buckets/b/objects/o:custom");

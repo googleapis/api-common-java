@@ -132,6 +132,9 @@ public class PathTemplate {
   // A regexp to match a custom verb at the end of a path.
   private static final Pattern CUSTOM_VERB_PATTERN = Pattern.compile(":([^/*}{=]+)$");
 
+  // A regex to match a hostname with or without protocol.
+  private static final Pattern HOSTNAME_PATTERN = Pattern.compile("^(\\w+:)?//");
+
   // A splitter on slash.
   private static final Splitter SLASH_SPLITTER = Splitter.on('/').trimResults();
 
@@ -533,10 +536,10 @@ public class PathTemplate {
       path = path.substring(0, matcher.start(0));
     }
 
-    // Do full match.
-    boolean withHostName = path.startsWith("//");
+    Matcher matcher = HOSTNAME_PATTERN.matcher(path);
+    boolean withHostName = matcher.find();
     if (withHostName) {
-      path = path.substring(2);
+      path = matcher.replaceFirst("");
     }
     List<String> input = SLASH_SPLITTER.splitToList(path);
     int inPos = 0;
