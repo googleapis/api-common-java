@@ -564,8 +564,9 @@ public class PathTemplate {
     return ImmutableMap.copyOf(values);
   }
 
-  private int alignInputPositionToLiteralSegment(List<String> input, int inPos,
-      String literalSegmentValue) {
+  // Aligns input to start of literal segment if input contains hostname.
+  private int alignInputPositionToLiteralSegment(
+      List<String> input, int inPos, String literalSegmentValue) {
     for (; inPos < input.size(); inPos++) {
       if (literalSegmentValue.equals(input.get(inPos))) {
         return inPos;
