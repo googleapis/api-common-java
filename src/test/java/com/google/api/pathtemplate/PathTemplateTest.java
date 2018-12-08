@@ -85,12 +85,13 @@ public class PathTemplateTest {
 
   @Test
   public void matchWithHostNameAndProtocol() {
-    PathTemplate template = PathTemplate.create("buckets/*/objects/*");
-    Map<String, String> match = template.match("http://somewhere.io/buckets/b/objects/o");
+    PathTemplate template = PathTemplate.create("projects/{project}/zones/{zone}");
+    Map<String, String> match = template
+        .match("https://www.googleapis.com/compute/v1/projects/project-123/zones/europe-west3-c");
     Truth.assertThat(match).isNotNull();
-    Truth.assertThat(match.get(PathTemplate.HOSTNAME_VAR)).isEqualTo("http://somewhere.io");
-    Truth.assertThat(match.get("$0")).isEqualTo("b");
-    Truth.assertThat(match.get("$1")).isEqualTo("o");
+    Truth.assertThat(match.get(PathTemplate.HOSTNAME_VAR)).isEqualTo("https://www.googleapis.com");
+    Truth.assertThat(match.get("project")).isEqualTo("project-123");
+    Truth.assertThat(match.get("zone")).isEqualTo("europe-west3-c");
   }
 
   @Test

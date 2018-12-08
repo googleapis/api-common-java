@@ -555,10 +555,23 @@ public class PathTemplate {
       }
       values.put(HOSTNAME_VAR, hostName);
     }
+    if (withHostName && segments.get(0).kind() == SegmentKind.LITERAL) {
+      inPos = alignInputPositionToLiteralSegment(input, inPos, segments.get(0).value());
+    }
     if (!match(input, inPos, segments, 0, values)) {
       return null;
     }
     return ImmutableMap.copyOf(values);
+  }
+
+  private int alignInputPositionToLiteralSegment(List<String> input, int inPos,
+      String literalSegmentValue) {
+    for (; inPos < input.size(); inPos++) {
+      if (literalSegmentValue.equals(input.get(inPos))) {
+        return inPos;
+      }
+    }
+    return inPos;
   }
 
   // Tries to match the input based on the segments at given positions. Returns a boolean
