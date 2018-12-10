@@ -125,8 +125,8 @@ public class PathTemplate {
 
   /**
    * A constant identifying the special variable used for endpoint bindings in the result of
-   * {@link #matchFromFullName(String)}. It may also contain protocol string, if its provided
-   * in the input.
+   * {@link #matchFromFullName(String)}. It may also contain protocol string, if its provided in the
+   * input.
    */
   public static final String HOSTNAME_VAR = "$hostname";
 
