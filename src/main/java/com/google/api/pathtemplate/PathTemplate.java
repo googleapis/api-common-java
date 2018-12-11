@@ -556,8 +556,8 @@ public class PathTemplate {
       }
       values.put(HOSTNAME_VAR, hostName);
     }
-    if (withHostName && segments.get(0).kind() == SegmentKind.LITERAL) {
-      inPos = alignInputPositionToLiteralSegment(input, inPos, segments.get(0).value());
+    if (withHostName) {
+      inPos = alignInputToAlignableSegment(input, inPos, segments.get(0));
     }
     if (!match(input, inPos, segments, 0, values)) {
       return null;
@@ -565,8 +565,20 @@ public class PathTemplate {
     return ImmutableMap.copyOf(values);
   }
 
-  // Aligns input to start of literal segment if input contains hostname.
-  private int alignInputPositionToLiteralSegment(
+  // Aligns input to start of literal value of literal or binding segment if input contains hostname.
+  private int alignInputToAlignableSegment(List<String> input, int inPos, Segment segment) {
+    switch (segment.kind()) {
+      case BINDING:
+        inPos = alignInputPositionToLiteral(input, inPos, segment.value() + "s");
+        return inPos + 1;
+      case LITERAL:
+        return alignInputPositionToLiteral(input, inPos, segment.value());
+    }
+    return inPos;
+  }
+
+  // Aligns input to start of literal value if input contains hostname.
+  private int alignInputPositionToLiteral(
       List<String> input, int inPos, String literalSegmentValue) {
     for (; inPos < input.size(); inPos++) {
       if (literalSegmentValue.equals(input.get(inPos))) {
