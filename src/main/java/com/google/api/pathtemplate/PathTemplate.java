@@ -651,7 +651,8 @@ public class PathTemplate {
             values.put(currentVar, "");
           }
           while (available-- > 0) {
-            values.put(currentVar, concatCaptures(values.get(currentVar), decodeUrl(input.get(inPos++))));
+            values.put(
+                currentVar, concatCaptures(values.get(currentVar), decodeUrl(input.get(inPos++))));
           }
       }
     }
@@ -661,7 +662,6 @@ public class PathTemplate {
   private static String concatCaptures(@Nullable String cur, String next) {
     return cur == null ? next : cur + "/" + next;
   }
-
 
   // Template Instantiation
   // ======================
