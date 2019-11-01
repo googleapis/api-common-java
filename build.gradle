@@ -42,7 +42,7 @@ ext {
       guava: 'com.google.guava:guava:28.1-android',
       jsr305: 'com.google.code.findbugs:jsr305:3.0.2',
       autovalue: 'com.google.auto.value:auto-value:1.1',
-      error_prone_annotations: 'com.google.errorprone:error_prone_annotations:2.3.2',
+      error_prone_annotations: 'com.google.errorprone:error_prone_annotations:2.3.3',
 
       // Testing
       junit: 'junit:junit:4.12',
