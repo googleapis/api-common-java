@@ -139,8 +139,7 @@ configurations {
 
 dependencies {
   codeGeneration libraries.auto_value, libraries.jsr305
-  compile libraries.jsr305
-  compileOnly libraries.auto_value_annotations
+  compile libraries.jsr305, libraries.auto_value_annotations
 }
 
 compileJava.classpath += configurations.codeGeneration
