@@ -63,10 +63,10 @@ dependencies {
 
   compile libraries.guava,
     libraries.jsr305,
-    libraries.javax_annotations
-
-  compileOnly libraries.error_prone_annotations,
+    libraries.javax_annotations,
     libraries.auto_value_annotations
+
+  compileOnly libraries.error_prone_annotations
 
   testCompile libraries.junit,
     libraries.mockito,
