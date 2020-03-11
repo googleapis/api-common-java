@@ -104,6 +104,7 @@ public final class ApiFutures {
     return new ListenableFutureToApiFuture<V>(catchingFuture);
   }
 
+  @BetaApi
   public static <V, X extends Throwable> ApiFuture<V> catchingAsync(
       ApiFuture<V> input,
       Class<X> exceptionType,
