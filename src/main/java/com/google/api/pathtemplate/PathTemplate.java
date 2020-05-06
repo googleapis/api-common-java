@@ -53,21 +53,18 @@ import javax.annotation.Nullable;
 /**
  * Represents a path template.
  *
- * <p>
- * Templates use the syntax of the API platform; see the protobuf of HttpRule for details. A
+ * <p>Templates use the syntax of the API platform; see the protobuf of HttpRule for details. A
  * template consists of a sequence of literals, wildcards, and variable bindings, where each binding
- * can have a sub-path. A string representation can be parsed into an instance of
- * {@link PathTemplate}, which can then be used to perform matching and instantiation.
+ * can have a sub-path. A string representation can be parsed into an instance of {@link
+ * PathTemplate}, which can then be used to perform matching and instantiation.
  *
- * <p>
- * Matching and instantiation deals with unescaping and escaping using URL encoding rules. For
- * example, if a template variable for a single segment is instantiated with a string like
- * {@code "a/b"}, the slash will be escaped to {@code "%2f"}. (Note that slash will not be escaped
- * for a multiple-segment variable, but other characters will). The literals in the template itself
- * are <em>not</em> escaped automatically, and must be already URL encoded.
+ * <p>Matching and instantiation deals with unescaping and escaping using URL encoding rules. For
+ * example, if a template variable for a single segment is instantiated with a string like {@code
+ * "a/b"}, the slash will be escaped to {@code "%2f"}. (Note that slash will not be escaped for a
+ * multiple-segment variable, but other characters will). The literals in the template itself are
+ * <em>not</em> escaped automatically, and must be already URL encoded.
  *
- * <p>
- * Here is an example for a template using simple variables:
+ * <p>Here is an example for a template using simple variables:
  *
  * <pre>
  *   PathTemplate template = PathTemplate.create("v1/shelves/{shelf}/books/{book}");
@@ -125,9 +122,8 @@ import javax.annotation.Nullable;
 public class PathTemplate {
 
   /**
-   * A constant identifying the special variable used for endpoint bindings in the result of
-   * {@link #matchFromFullName(String)}. It may also contain protocol string, if its provided in the
-   * input.
+   * A constant identifying the special variable used for endpoint bindings in the result of {@link
+   * #matchFromFullName(String)}. It may also contain protocol string, if its provided in the input.
    */
   public static final String HOSTNAME_VAR = "$hostname";
 
@@ -333,11 +329,10 @@ public class PathTemplate {
    * </pre>
    *
    * The returned template will never have named variables, but only wildcards, which are dealt with
-   * in matching and instantiation using '$n'-variables. See the documentation of
-   * {@link #match(String)} and {@link #instantiate(Map)}, respectively.
+   * in matching and instantiation using '$n'-variables. See the documentation of {@link
+   * #match(String)} and {@link #instantiate(Map)}, respectively.
    *
-   * <p>
-   * For a variable which has no sub-path, this returns a path template with a single wildcard
+   * <p>For a variable which has no sub-path, this returns a path template with a single wildcard
    * ('*').
    *
    * @throws ValidationException if the variable does not exist in the template.
@@ -403,9 +398,7 @@ public class PathTemplate {
       throw new ValidationException(
           String.format(
               "%s: Parameter \"%s\" must be in the form \"%s\"",
-              exceptionMessagePrefix,
-              path,
-              this.toString()));
+              exceptionMessagePrefix, path, this.toString()));
     }
   }
 
@@ -415,15 +408,12 @@ public class PathTemplate {
    * throws a ValidationException. The exceptionMessagePrefix parameter will be prepended to the
    * ValidationException message.
    *
-   * <p>
-   * If the path starts with '//', the first segment will be interpreted as a host name and stored
-   * in the variable {@link #HOSTNAME_VAR}.
+   * <p>If the path starts with '//', the first segment will be interpreted as a host name and
+   * stored in the variable {@link #HOSTNAME_VAR}.
    *
-   * <p>
-   * See the {@link PathTemplate} class documentation for examples.
+   * <p>See the {@link PathTemplate} class documentation for examples.
    *
-   * <p>
-   * For free wildcards in the template, the matching process creates variables named '$n', where
+   * <p>For free wildcards in the template, the matching process creates variables named '$n', where
    * 'n' is the wildcard's position in the template (starting at n=0). For example:
    *
    * <pre>
@@ -450,9 +440,7 @@ public class PathTemplate {
       throw new ValidationException(
           String.format(
               "%s: Parameter \"%s\" must be in the form \"%s\"",
-              exceptionMessagePrefix,
-              path,
-              this.toString()));
+              exceptionMessagePrefix, path, this.toString()));
     }
     return matchMap;
   }
@@ -467,15 +455,12 @@ public class PathTemplate {
    * will be properly unescaped using URL encoding rules. If the path does not match the template,
    * null is returned.
    *
-   * <p>
-   * If the path starts with '//', the first segment will be interpreted as a host name and stored
-   * in the variable {@link #HOSTNAME_VAR}.
+   * <p>If the path starts with '//', the first segment will be interpreted as a host name and
+   * stored in the variable {@link #HOSTNAME_VAR}.
    *
-   * <p>
-   * See the {@link PathTemplate} class documentation for examples.
+   * <p>See the {@link PathTemplate} class documentation for examples.
    *
-   * <p>
-   * For free wildcards in the template, the matching process creates variables named '$n', where
+   * <p>For free wildcards in the template, the matching process creates variables named '$n', where
    * 'n' is the wildcard's position in the template (starting at n=0). For example:
    *
    * <pre>
@@ -676,10 +661,9 @@ public class PathTemplate {
    * Instantiate the template based on the given variable assignment. Performs proper URL escaping
    * of variable assignments.
    *
-   * <p>
-   * Note that free wildcards in the template must have bindings of '$n' variables, where 'n' is the
-   * position of the wildcard (starting at 0). See the documentation of {@link #match(String)} for
-   * details.
+   * <p>Note that free wildcards in the template must have bindings of '$n' variables, where 'n' is
+   * the position of the wildcard (starting at 0). See the documentation of {@link #match(String)}
+   * for details.
    *
    * @throws ValidationException if a variable occurs in the template without a binding.
    */
@@ -835,7 +819,6 @@ public class PathTemplate {
   // ================
 
   private static ImmutableList<Segment> parseTemplate(String template) {
-    System.out.println("DEL: PARSING TEMPLATE");
     // Skip useless leading slash.
     if (template.startsWith("/")) {
       template = template.substring(1);
