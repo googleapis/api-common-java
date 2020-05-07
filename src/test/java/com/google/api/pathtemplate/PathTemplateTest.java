@@ -262,13 +262,13 @@ public class PathTemplateTest {
     PathTemplate.create("projects/{project}/zones/{zone_a}{zone_b}");
     thrown.expectMessage(
         String.format(
-            "parse error: missing or invalid complex resource ID delimiter character in '%s'",
+            "parse error: missing or 2+ consecutive delimiter characters in '%s'",
             "{zone_a}{zone_b}"));
 
     PathTemplate.create("projects/{project}/zones/{zone_a}_{zone_b}{zone_c}");
     thrown.expectMessage(
         String.format(
-            "parse error: missing or invalid complex resource ID delimiter character in '%s'",
+            "parse error: missing or 2+ consecutive delimiter characters in '%s'",
             "{zone_a}_{zone_b}{zone_c}"));
   }
 
@@ -283,7 +283,7 @@ public class PathTemplateTest {
           String.format("projects/{project=*}/zones/{zone_a}%s{zone_b}", invalidDelimiter));
       thrown.expectMessage(
           String.format(
-              "parse error: missing or invalid complex resource ID delimiter character in '%s'",
+              "parse error: invalid complex resource ID delimiter character in '%s'",
               String.format("{zone_a}%s{zone_b}", invalidDelimiter)));
     }
   }
@@ -398,12 +398,13 @@ public class PathTemplateTest {
     PathTemplate.create("projects/*/zones/{zone_a}~.{zone_b}");
     thrown.expectMessage(
         String.format(
-            "parse error: two consecutive delimiter characters in '%s'", "{zone_a}~.{zone_b}"));
+            "parse error: missing or 2+ consecutive delimiter characters in '%s'",
+            "{zone_a}~.{zone_b}"));
 
     PathTemplate.create("projects/*/zones/{zone_a}~{zone_b}..{zone_c}");
     thrown.expectMessage(
         String.format(
-            "parse error: two consecutive delimiter characters in '%s'",
+            "parse error: missing or 2+ consecutive delimiter characters in '%s'",
             "{zone_a}~{zone_b}..{zone_c}"));
 
     String pathString = "projects/project_123/zones/lorum~ipsum";
