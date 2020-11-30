@@ -1,4 +1,4 @@
-version: 2
+version: 2.1
 
 jobs:
   api-common-java-java7-gradle-build:
@@ -11,7 +11,7 @@ jobs:
       TERM: dumb
     steps:
       - checkout:
-        path: api-common-java
+          path: api-common-java
       - attach_workspace:
           at: workspace
       # Download and cache dependencies
@@ -21,16 +21,16 @@ jobs:
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
       - run:
-        name: Gradle Install
-        command: |
-          ./gradlew assemble
+          name: Gradle Install
+          command: |
+            ./gradlew assemble
       - run:
-        name: Gradle Test
-        command: |
-          ./gradlew assemble
+          name: Gradle Test
+          command: |
+            ./gradlew assemble
       - run:
-        name: Gradle Build
-        command: |
+          name: Gradle Build
+          command: |
             ./gradlew build install
             bash <(curl -s https://codecov.io/bash)
       - save_cache:
