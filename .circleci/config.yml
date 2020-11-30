@@ -1,9 +1,9 @@
 version: 2.1
 
 jobs:
-  api-common-java-java7-gradle-build:
+  api-common-java-java8-gradle-build:
     docker:
-      - image: circleci/openjdk:7-jdk
+      - image: circleci/openjdk:8-jdk
     working_directory: /home/circleci/workspace/
     environment:
       # Customize the JVM maximum heap limit
@@ -40,7 +40,7 @@ jobs:
 
   google-java-format:
     docker:
-      - image: circleci/openjdk:7-jdk
+      - image: circleci/openjdk:8-jdk
     working_directory: /home/circleci/workspace/api-common-java
     steps:
       - checkout
@@ -54,5 +54,5 @@ workflows:
   version: 2
   run_tests:
     jobs:
-      - api-common-java-java7-gradle-build
+      - api-common-java-java8-gradle-build
       - google-java-format
