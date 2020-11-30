@@ -23,20 +23,20 @@ jobs:
       - run:
           name: Gradle Install
           command: |
-            ./gradlew assemble
+            api-common-java/gradlew assemble
       - run:
           name: Gradle Test
           command: |
-            ./gradlew assemble
+            api-common-java/gradlew test
       - run:
           name: Gradle Build
           command: |
-            ./gradlew build install
+            api-common-java/gradlew build install
             bash <(curl -s https://codecov.io/bash)
       - save_cache:
           paths:
             - ~/.gradle
-          key: v1-dependencies-{{ checksum "build.gradle" }}
+          key: api-common-java/v1-dependencies-{{ checksum "build.gradle" }}
 
   google-java-format:
     docker:
@@ -47,7 +47,7 @@ jobs:
       - run:
           name: Java Linter
           command: |
-            ./gradlew googleJavaFormat
+            api-common-java/gradlew googleJavaFormat
 # ======================= WORKFLOWS =======================
 
 workflows:
