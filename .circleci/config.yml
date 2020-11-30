@@ -4,7 +4,7 @@ jobs:
   api-common-java-java8-gradle-build:
     docker:
       - image: circleci/openjdk:8-jdk
-    working_directory: /home/circleci/workspace/
+    working_directory: /home/circleci/workspace/api-common-java
     environment:
       # Customize the JVM maximum heap limit
       JVM_OPTS: -Xmx3200m
@@ -20,15 +20,15 @@ jobs:
       - run:
           name: Gradle Assemble
           command: |
-            api-common-java/gradlew assemble
+            ./gradlew assemble
       - run:
           name: Gradle Test
           command: |
-            api-common-java/gradlew test
+            ./gradlew test
       - run:
           name: Gradle Build
           command: |
-            api-common-java/gradlew build install
+            ./gradlew build install
             bash <(curl -s https://codecov.io/bash)
       - save_cache:
           paths:
@@ -44,7 +44,7 @@ jobs:
       - run:
           name: Java Linter
           command: |
-            api-common-java/gradlew googleJavaFormat
+            ./gradlew googleJavaFormat
 # ======================= WORKFLOWS =======================
 
 workflows:
