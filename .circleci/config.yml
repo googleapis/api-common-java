@@ -10,10 +10,7 @@ jobs:
       JVM_OPTS: -Xmx3200m
       TERM: dumb
     steps:
-      - checkout:
-          path: api-common-java
-      - attach_workspace:
-          at: workspace
+      - checkout
       # Download and cache dependencies
       - restore_cache:
           keys:
@@ -21,7 +18,7 @@ jobs:
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
       - run:
-          name: Gradle Install
+          name: Gradle Assemble
           command: |
             api-common-java/gradlew assemble
       - run:
