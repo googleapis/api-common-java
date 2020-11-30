@@ -1,4 +1,4 @@
-version: 2
+version: 2.1
 
 jobs:
   api-common-java-java7-gradle-build:
@@ -56,5 +56,3 @@ workflows:
     jobs:
       - api-common-java-java7-gradle-build
       - google-java-format
-
-
