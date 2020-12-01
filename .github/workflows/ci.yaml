@@ -11,14 +11,11 @@ jobs:
       # Customize the JVM maximum heap limit
       JVM_OPTS: -Xmx3200m
       TERM: dumb
-    strategy:
-      matrix:
-        java: [8, 11]
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-java@v1
         with:
-          java-version: ${{ matrix.java }}
+          java-version: 8
       - run: java -version
       - name: Gradle Assemble
         run: ./gradlew assemble
