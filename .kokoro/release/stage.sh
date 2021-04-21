@@ -15,24 +15,31 @@
 
 set -eo pipefail
 
-if [[ -n "${AUTORELEASE_PR}" ]]
-then
-  # Start the releasetool reporter
-  python3 -m pip install gcp-releasetool
-  python3 -m releasetool publish-reporter-script > /tmp/publisher-script; source /tmp/publisher-script
-fi
+# Start the releasetool reporter
+python3 -m pip install gcp-releasetool
+python3 -m releasetool publish-reporter-script > /tmp/publisher-script; source /tmp/publisher-script
 
 source $(dirname "$0")/common.sh
+source $(dirname "$0")/../common.sh
 MAVEN_SETTINGS_FILE=$(realpath $(dirname "$0")/../../)/settings.xml
 pushd $(dirname "$0")/../../
 
 setup_environment_secrets
-mkdir -p ${HOME}/.gradle
-create_gradle_properties_file "${HOME}/.gradle/gradle.properties"
+create_settings_xml_file "settings.xml"
 
-./gradlew assemble publish
+# attempt to stage 3 times with exponential backoff (starting with 10 seconds)
+retry_with_backoff 3 10 \
+  mvn clean deploy -B \
+    --settings ${MAVEN_SETTINGS_FILE} \
+    -DskipTests=true \
+    -DperformRelease=true \
+    -Dgpg.executable=gpg \
+    -Dgpg.passphrase=${GPG_PASSPHRASE} \
+    -Dgpg.homedir=${GPG_HOMEDIR}
 
 if [[ -n "${AUTORELEASE_PR}" ]]
 then
-  ./gradlew closeAndReleaseRepository
+  mvn nexus-staging:release -B \
+    -DperformRelease=true \
+    --settings=settings.xml
 fi

@@ -1,5 +1,5 @@
 #!/bin/bash
-# Copyright 2019 Google Inc.
+# Copyright 2018 Google Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,16 +16,19 @@
 set -eo pipefail
 
 # STAGING_REPOSITORY_ID must be set
-#if [ -z "${STAGING_REPOSITORY_ID}" ]; then
-#  echo "Missing STAGING_REPOSITORY_ID environment variable"
-#  exit 1
-#fi
+if [ -z "${STAGING_REPOSITORY_ID}" ]; then
+  echo "Missing STAGING_REPOSITORY_ID environment variable"
+  exit 1
+fi
 
 source $(dirname "$0")/common.sh
+
 pushd $(dirname "$0")/../../
 
 setup_environment_secrets
-mkdir -p ${HOME}/.gradle
-create_gradle_properties_file "${HOME}/.gradle/gradle.properties"
+create_settings_xml_file "settings.xml"
 
-./gradlew closeAndReleaseRepository
+mvn nexus-staging:release -B \
+  -DperformRelease=true \
+  --settings=settings.xml \
+  -DstagingRepositoryId=${STAGING_REPOSITORY_ID}

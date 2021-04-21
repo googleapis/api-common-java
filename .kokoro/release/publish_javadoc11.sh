@@ -30,23 +30,29 @@ pushd $(dirname "$0")/../../
 # install docuploader package
 python3 -m pip install gcp-docuploader
 
-NAME=api-common
-VERSION=$(grep ${NAME}: versions.txt | cut -d: -f3)
+# compile all packages
+mvn clean install -B -q -DskipTests=true
 
-# build the docs
-./gradlew javadocCombined
+export NAME=api-common
+export VERSION=$(grep ${NAME}: versions.txt | cut -d: -f3)
 
-pushd tmp_docs
+# V3 generates docfx yml from javadoc
+# generate yml
+mvn clean site -B -q -P docFX
+
+# copy README to docfx-yml dir and rename index.md
+cp README.md target/docfx-yml/index.md
+
+pushd target/docfx-yml
 
 # create metadata
 python3 -m docuploader create-metadata \
-  --name ${NAME} \
-  --version ${VERSION} \
-  --language java
+ --name ${NAME} \
+ --version ${VERSION} \
+ --language java
 
-# upload docs
+# upload yml to production bucket
 python3 -m docuploader upload . \
-  --credentials ${CREDENTIALS} \
-  --staging-bucket ${STAGING_BUCKET_V2}
-
-popd
+ --credentials ${CREDENTIALS} \
+ --staging-bucket ${STAGING_BUCKET_V2} \
+ --destination-prefix docfx
