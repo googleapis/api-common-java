@@ -30,16 +30,13 @@ pushd $(dirname "$0")/../../
 # install docuploader package
 python3 -m pip install gcp-docuploader
 
-# compile all packages
-mvn clean install -B -q -DskipTests=true
-
-export NAME=api-common
-export VERSION=$(grep ${NAME}: versions.txt | cut -d: -f3)
+NAME=api-common
+VERSION=$(grep ${NAME}: versions.txt | cut -d: -f3)
 
 # build the docs
-mvn site -B -q
+./gradlew javadocCombined
 
-pushd target/site/apidocs
+pushd tmp_docs
 
 # create metadata
 python3 -m docuploader create-metadata \
@@ -51,3 +48,5 @@ python3 -m docuploader create-metadata \
 python3 -m docuploader upload . \
   --credentials ${CREDENTIALS} \
   --staging-bucket ${STAGING_BUCKET}
+
+popd

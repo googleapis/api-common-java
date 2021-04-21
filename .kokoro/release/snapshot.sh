@@ -23,11 +23,7 @@ pushd $(dirname "$0")/../../
 grep SNAPSHOT versions.txt
 
 setup_environment_secrets
-create_settings_xml_file "settings.xml"
+mkdir -p ${HOME}/.gradle
+create_gradle_properties_file "${HOME}/.gradle/gradle.properties"
 
-mvn clean deploy -B \
-  --settings ${MAVEN_SETTINGS_FILE} \
-  -DperformRelease=true \
-  -Dgpg.executable=gpg \
-  -Dgpg.passphrase=${GPG_PASSPHRASE} \
-  -Dgpg.homedir=${GPG_HOMEDIR}
+./gradlew assemble publish

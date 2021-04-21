@@ -69,9 +69,7 @@ public class ValidationException extends IllegalArgumentException {
         });
   }
 
-  /**
-   * Clears the validation context.
-   */
+  /** Clears the validation context. */
   public static void popCurrentThreadValidationContext() {
     Stack<?> stack = contextLocal.get();
     if (stack != null) {
@@ -79,9 +77,7 @@ public class ValidationException extends IllegalArgumentException {
     }
   }
 
-  /**
-   * Construct validation exception with implicit context.
-   */
+  /** Construct validation exception with implicit context. */
   public ValidationException(String format, Object... args) {
     super(message(contextLocal.get(), format, args));
   }
