@@ -40,11 +40,7 @@ pushd tmp_docs
 
 # create metadata
 python3 -m docuploader create-metadata \
-  --name ${NAME} \
-  --version ${VERSION} \
-  --language java
-
-# upload docs
+	@@ -51,3 +48,5 @@ python3 -m docuploader create-metadata \
 python3 -m docuploader upload . \
   --credentials ${CREDENTIALS} \
   --staging-bucket ${STAGING_BUCKET}
