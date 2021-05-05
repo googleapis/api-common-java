@@ -5,8 +5,6 @@ branchProtectionRules:
   - pattern: master
     isAdminEnforced: true
     requiredStatusCheckContexts:
-      - codecov/patch
-      - codecov/project
       - cla/google
     requiredApprovingReviewCount: 1
     requiresCodeOwnerReviews: true
@@ -14,8 +12,6 @@ branchProtectionRules:
   - pattern: 1.10.1-sp
     isAdminEnforced: true
     requiredStatusCheckContexts:
-      - codecov/patch
-      - codecov/project
       - cla/google
     requiredApprovingReviewCount: 1
     requiresCodeOwnerReviews: true
