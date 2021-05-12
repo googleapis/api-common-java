@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.10.1-sp.1](https://www.github.com/googleapis/api-common-java/compare/1.10.1...v1.10.1-sp.1) (2021-05-12)
+
+
+### Features
+
+* initial sp release ([318bcc0](https://www.github.com/googleapis/api-common-java/commit/318bcc0a8db911406453c2a976efc69ac2637dfd))
+
 ### [1.10.1](https://www.github.com/googleapis/api-common-java/compare/v1.10.0...v1.10.1) (2020-10-16)
 
 
