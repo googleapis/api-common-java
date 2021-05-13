@@ -5,6 +5,8 @@ branchProtectionRules:
   - pattern: master
     isAdminEnforced: true
     requiredStatusCheckContexts:
+      - units
+      - format
       - cla/google
     requiredApprovingReviewCount: 1
     requiresCodeOwnerReviews: true
@@ -12,6 +14,8 @@ branchProtectionRules:
   - pattern: 1.10.1-sp
     isAdminEnforced: true
     requiredStatusCheckContexts:
+      - units
+      - format
       - cla/google
     requiredApprovingReviewCount: 1
     requiresCodeOwnerReviews: true
