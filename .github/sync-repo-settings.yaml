@@ -2,15 +2,24 @@ rebaseMergeAllowed: true
 squashMergeAllowed: true
 mergeCommitAllowed: false
 branchProtectionRules:
-- pattern: master
-  isAdminEnforced: true
-  requiredStatusCheckContexts:
-    - 'codecov/patch'
-    - 'codecov/project'
-    - 'cla/google'
-  requiredApprovingReviewCount: 1
-  requiresCodeOwnerReviews: true
-  requiresStrictStatusChecks: true
+  - pattern: master
+    isAdminEnforced: true
+    requiredStatusCheckContexts:
+      - units
+      - format
+      - cla/google
+    requiredApprovingReviewCount: 1
+    requiresCodeOwnerReviews: true
+    requiresStrictStatusChecks: true
+  - pattern: 1.10.1-sp
+    isAdminEnforced: true
+    requiredStatusCheckContexts:
+      - units
+      - format
+      - cla/google
+    requiredApprovingReviewCount: 1
+    requiresCodeOwnerReviews: true
+    requiresStrictStatusChecks: true
 permissionRules:
   - team: Googlers
     permission: pull

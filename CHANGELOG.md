@@ -1,5 +1,27 @@
 # Changelog
 
+### [1.10.4](https://www.github.com/googleapis/api-common-java/compare/v1.10.3...v1.10.4) (2021-05-19)
+
+
+### Dependencies
+
+* update dependency com.google.errorprone:error_prone_annotations to v2.7.1 ([#231](https://www.github.com/googleapis/api-common-java/issues/231)) ([51b00e0](https://www.github.com/googleapis/api-common-java/commit/51b00e0603583fc3b781783945dcbccef81a22fd))
+
+### [1.10.3](https://www.github.com/googleapis/api-common-java/compare/v1.10.2...v1.10.3) (2021-04-22)
+
+
+### Dependencies
+
+* update dependency com.google.auto.value:auto-value to v1.8.1 ([#219](https://www.github.com/googleapis/api-common-java/issues/219)) ([307c640](https://www.github.com/googleapis/api-common-java/commit/307c640cb487962786be5551a65863c7d2276a3a))
+* update dependency com.google.auto.value:auto-value-annotations to v1.8.1 ([#215](https://www.github.com/googleapis/api-common-java/issues/215)) ([15cebbc](https://www.github.com/googleapis/api-common-java/commit/15cebbcaea8a1ea62e4a800d8d325ee302971fcf))
+
+### [1.10.2](https://www.github.com/googleapis/api-common-java/compare/v1.10.1...v1.10.2) (2021-04-19)
+
+
+### Dependencies
+
+* guava 30.1.1 ([#207](https://www.github.com/googleapis/api-common-java/issues/207)) ([20578a0](https://www.github.com/googleapis/api-common-java/commit/20578a00e5b4ba2f9c4482eccf55ffa37ab12335))
+
 ### [1.10.1](https://www.github.com/googleapis/api-common-java/compare/v1.10.0...v1.10.1) (2020-10-16)
 
 

@@ -27,7 +27,7 @@ apply plugin: 'io.codearte.nexus-staging'
 group = "com.google.api"
 archivesBaseName = "api-common"
 
-project.version = "1.10.2-SNAPSHOT" // {x-version-update:api-common:current}
+project.version = "1.10.4" // {x-version-update:api-common:current}
 
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
@@ -39,11 +39,11 @@ ext {
   // Shortcuts for libraries we are using
   libraries = [
       javax_annotations: 'javax.annotation:javax.annotation-api:1.3.2',
-      auto_value: 'com.google.auto.value:auto-value:1.8',
-      auto_value_annotations: 'com.google.auto.value:auto-value-annotations:1.8',
+      auto_value: 'com.google.auto.value:auto-value:1.8.1',
+      auto_value_annotations: 'com.google.auto.value:auto-value-annotations:1.8.1',
       guava: 'com.google.guava:guava:30.1.1-android',
       jsr305: 'com.google.code.findbugs:jsr305:3.0.2',
-      error_prone_annotations: 'com.google.errorprone:error_prone_annotations:2.6.0',
+      error_prone_annotations: 'com.google.errorprone:error_prone_annotations:2.7.1',
 
       // Testing
       junit: 'junit:junit:4.13.2',
@@ -110,6 +110,26 @@ task javadocJar(type: Jar) {
 javadoc.options {
   encoding = 'UTF-8'
   links 'https://docs.oracle.com/javase/7/docs/api/'
+}
+
+// JavaDocV3
+// -------
+
+task javadocJarV3(type: Jar) {
+  classifier = 'javadoc'
+  from javadoc
+}
+
+javadoc.options {
+  encoding = 'UTF-8'
+  links 'https://docs.oracle.com/javase/7/docs/api/'
+
+  if (JavaVersion.current().isJava8Compatible()) {
+    addStringOption('Xdoclint:all,-missing', '-quiet')
+  }
+  if (JavaVersion.current().isJava11Compatible()) {
+    addStringOption('-release', '7')
+  }
 }
 
 // Test Logging
@@ -311,6 +331,25 @@ tasks.verifyGoogleJavaFormat {
   exclude 'build/**'
 }
 test.dependsOn verifyGoogleJavaFormat
+
+// JavaDocV3 docFX
+//
+task javadocCombinedV3(type: Javadoc) {
+  source project.sourceSets.main.allJava
+  classpath = files(project.sourceSets.main.compileClasspath)
+  destinationDir = new File(projectDir, 'tmp_docs/docfx-yml')
+
+  options.addStringOption('encoding', 'UTF-8')
+  options.addStringOption("doclet", "com.microsoft.doclet.DocFxDoclet")
+  options.addStringOption("projectname", "api-common")
+  options.docletpath = [file(System.getenv('KOKORO_GFILE_DIR') + "/java-docfx-doclet-1.0.jar")]
+}
+
+clean {
+  delete 'tmp_gh-pages/'
+  delete 'tmp_docs/'
+}
+
 
 // Release
 // =======
