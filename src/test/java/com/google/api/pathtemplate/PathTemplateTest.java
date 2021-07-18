@@ -114,6 +114,7 @@ public class PathTemplateTest {
     PathTemplate start = PathTemplate.create("{glob=**}/b");
     PathTemplate middle = PathTemplate.create("a/{glob=**}/b");
     PathTemplate end = PathTemplate.create("a/{glob=**}");
+    PathTemplate endWithCustomVerb = PathTemplate.create("a/{glob=**}:foo");
 
     Truth.assertThat(start.match("b").get("glob")).isEmpty();
     Truth.assertThat(start.match("/b").get("glob")).isEmpty();
@@ -129,6 +130,10 @@ public class PathTemplateTest {
     Truth.assertThat(end.match("a/").get("glob")).isEmpty();
     Truth.assertThat(end.match("a/b").get("glob")).isEqualTo("b");
     Truth.assertThat(end.match("a/b/b/b").get("glob")).isEqualTo("b/b/b");
+
+    Truth.assertThat(endWithCustomVerb.match("a/:foo").get("glob")).isEmpty();
+    Truth.assertThat(endWithCustomVerb.match("a/b:foo").get("glob")).isEqualTo("b");
+    Truth.assertThat(endWithCustomVerb.match("a/b/b:foo").get("glob")).isEqualTo("b/b");
   }
 
   @Test
@@ -171,6 +176,12 @@ public class PathTemplateTest {
   public void matchWithUnboundInMiddle() {
     PathTemplate template = PathTemplate.create("bar/**/foo/*");
     assertPositionalMatch(template.match("bar/foo/foo/foo/bar"), "foo/foo", "bar");
+  }
+
+  @Test
+  public void matchwithCustomVerbs() {
+    PathTemplate template = PathTemplate.create("**:foo");
+    assertPositionalMatch(template.match("a/b/c:foo"), "a/b/c");
   }
 
   // Complex Resource ID Segments.
@@ -645,6 +656,14 @@ public class PathTemplateTest {
             "zone_b",
             "baseball");
     Truth.assertThat(instance).isEqualTo("projects/a%2Fb%2Fc~foo.bar/zones/apple~baseball");
+  }
+
+  @Test
+  public void instantiateWithCustomVerbs() {
+    PathTemplate template = PathTemplate.create("/v1/{name=operations/**}:cancel");
+    String templateInstance = template.instantiate("name", "operations/3373707");
+    Truth.assertThat(templateInstance).isEqualTo("v1/operations/3373707:cancel");
+    Truth.assertThat(template.matches(templateInstance));
   }
 
   // Other
