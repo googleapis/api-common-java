@@ -21,14 +21,14 @@ branchProtectionRules:
     requiresCodeOwnerReviews: true
     requiresStrictStatusChecks: true
   - pattern: java7
-        isAdminEnforced: true
-        requiredStatusCheckContexts:
-        - units
-        - format
-        - cla/google
-        requiredApprovingReviewCount: 1
-        requiresCodeOwnerReviews: true
-        requiresStrictStatusChecks: true
+    isAdminEnforced: true
+    requiredStatusCheckContexts:
+      - units
+      - format
+      - cla/google
+    requiredApprovingReviewCount: 1
+    requiresCodeOwnerReviews: true
+    requiresStrictStatusChecks: true
 permissionRules:
   - team: Googlers
     permission: pull
