@@ -1,7 +1,7 @@
 on:
   push:
     branches:
-    - java7
+    - master
   pull_request:
 name: ci
 jobs:
