@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.11.0](https://www.github.com/googleapis/api-common-java/compare/v1.10.6...v1.11.0) (2021-07-29)
+
+
+### Features
+
+* configure java7 branch ([#257](https://www.github.com/googleapis/api-common-java/issues/257)) ([d618658](https://www.github.com/googleapis/api-common-java/commit/d6186580c6906924c40211a898b32973e59dab2d))
+
 ### [1.10.5](https://www.github.com/googleapis/api-common-java/compare/v1.10.5...v1.10.5) (2021-07-27)
 
 
