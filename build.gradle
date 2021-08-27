@@ -96,7 +96,9 @@ jar {
 
 // Source jar
 // ----------
-
+project.gradle.taskGraph.whenReady {
+  println project.gradle.taskGraph.getAllTasks()
+}
 task sourcesJar(type: Jar, dependsOn: classes) {
   classifier = 'sources'
   from sourceSets.main.allSource
@@ -213,7 +215,7 @@ artifacts {
 }
 
 signing {
-  required { gradle.taskGraph.hasTask("uploadArchives") }
+  required { gradle.taskGraph.hasTask("publishToSonatype") }
   if (project.hasProperty('signing.gnupg.executable')) {
     useGpgCmd()
   }
@@ -425,7 +427,7 @@ task stageRelease {
     exec {
       // We need to spawn a new gradle build process in order to upload appropriately
       // More details: http://stackoverflow.com/questions/31614735/gradle-uploadarchives-artificats-namespace-when-depending-on-a-plugin
-      commandLine './gradlew', 'uploadArchives'
+      commandLine './gradlew', 'publishToSonatype', 'closeAndReleaseSonatypeStagingRepository'
     }
   }
 }
