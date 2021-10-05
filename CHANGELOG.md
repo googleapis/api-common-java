@@ -2,6 +2,13 @@
 
 ### Dependencies
 
+### [2.0.4](https://www.github.com/googleapis/api-common-java/compare/v2.0.3...v2.0.4) (2021-10-05)
+
+
+### Dependencies
+
+* use nexus publish plugin ([#292](https://www.github.com/googleapis/api-common-java/issues/292)) ([c84d6bf](https://www.github.com/googleapis/api-common-java/commit/c84d6bf8000447024d5fb2dc5c11bd4eea3139fc))
+
 ### [2.0.3](https://www.github.com/googleapis/api-common-java/compare/v2.0.2...v2.0.3) (2021-08-30)
 
 
