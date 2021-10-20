@@ -19,7 +19,6 @@ apply plugin: 'idea'
 apply plugin: 'jacoco'
 apply plugin: 'signing'
 apply plugin: 'maven-publish'
-apply plugin: 'maven'
 apply plugin: 'com.github.sherter.google-java-format'
 apply plugin: 'io.github.gradle-nexus.publish-plugin'
 
@@ -354,7 +353,7 @@ task javadocCombinedV3(type: Javadoc) {
   options.addStringOption('encoding', 'UTF-8')
   options.addStringOption("doclet", "com.microsoft.doclet.DocFxDoclet")
   options.addStringOption("projectname", "api-common")
-  options.docletpath = [file(System.getenv('KOKORO_GFILE_DIR') + "/java-docfx-doclet-1.2.1.jar")]
+  options.docletpath = [file(System.getenv('KOKORO_GFILE_DIR') + "/java-docfx-doclet-1.3.0.jar")]
 }
 
 clean {
