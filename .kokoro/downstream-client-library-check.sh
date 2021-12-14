@@ -34,7 +34,7 @@ gradle publishToMavenLocal
 # Round 1
 # Clone java-core
 git clone git@github.com:googleapis/java-core.git
-
+cd java-core
 # replace version
 xmllint --shell <(cat pom.xml) << EOF
 setns x=http://maven.apache.org/POM/4.0.0
