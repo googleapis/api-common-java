@@ -35,6 +35,13 @@ jacoco {
     toolVersion = "0.8.7"
 }
 
+// print project version
+task printVersionGax {
+  doLast {
+    println project.version
+  }
+}
+
 // Dependencies
 // ------------
 
