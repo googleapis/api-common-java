@@ -6,6 +6,7 @@ on:
 name: downstream
 jobs:
   dependencies:
+    if: ${{ github.event.action != 'labeled' || github.event.label.name == 'downstream-check:run' }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
