@@ -35,7 +35,7 @@ echo $COMMON_VERSION
 
 # Round 1
 # Clone java-core
-git clone git@github.com:googleapis/java-core.git
+git clone "https://github.com/googleapis/java-core.git" --depth=1
 cd java-core
 # replace version
 xmllint --shell <(cat pom.xml) << EOF
