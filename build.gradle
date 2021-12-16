@@ -36,10 +36,8 @@ jacoco {
 }
 
 // print project version
-task printVersionGax {
-  doLast {
+task printVersion {
     println project.version
-  }
 }
 
 // Dependencies

@@ -26,7 +26,9 @@ scriptDir=$(realpath $(dirname "${BASH_SOURCE[0]}"))
 ## cd to the parent directory, i.e. the root of the git repo
 cd ${scriptDir}/..
 
-COMMON_VERSION=`gradle -q pVG`
+COMMON_VERSION_TEXT=`gradle -q pV`
+COMMON_VERSION=$(echo "${COMMON_VERSION_TEXT}" | sed -e 's/\[.*\]$//g')
+echo $COMMON_VERSION
 
 # Publish api-common to local maven to make it available for downstream libraries
 gradle publishToMavenLocal
