@@ -31,7 +31,7 @@ COMMON_VERSION=$(echo "${COMMON_VERSION_TEXT}" | sed -e 's/\[.*\]$//g')
 echo $COMMON_VERSION
 
 # Publish api-common to local maven to make it available for downstream libraries
-gradle publishToMavenLocal
+./gradlew build publishToMavenLocal
 
 # Round 1
 # Clone java-core
