@@ -1,14 +1,12 @@
 on:
-  push:
+  pull_request:
+    types: [ labeled ]
     branches:
     - main
-  pull_request:
-  pull_request_target:
-    types: [labeled]
 name: downstream
 jobs:
   dependencies:
-    if: ${{ github.event.action == 'labeled' && github.event.label.name == 'downstream-check:run' }}
+    if: ${{ github.event.label.name == 'downstream-check:run' }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
