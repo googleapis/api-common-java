@@ -10,7 +10,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        java: [11]
+        java: [8]
         repo:
         - memcache
     steps:
