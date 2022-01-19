@@ -20,7 +20,7 @@ set -eo pipefail
 # Display commands being run.
 set -x
 
-CORE_ARTIFACT=$1
+CORE_LIBRARY_ARTIFACT=$1
 CLIENT_LIBRARY=$2
 ## Get the directory of the build script
 scriptDir=$(realpath $(dirname "${BASH_SOURCE[0]}"))
@@ -35,7 +35,7 @@ echo $CORE_VERSION
 ./gradlew build publishToMavenLocal
 
 # Round 1
-# Check this java-core against HEAD of java-shared dependencies
+# Check this core java library against HEAD of java-shared dependencies
 
 git clone "https://github.com/googleapis/java-shared-dependencies.git" --depth=1
 pushd java-shared-dependencies/first-party-dependencies
@@ -43,7 +43,7 @@ pushd java-shared-dependencies/first-party-dependencies
 # replace version
 xmllint --shell <(cat pom.xml) << EOF
 setns x=http://maven.apache.org/POM/4.0.0
-cd .//x:artifactId[text()="${CORE_ARTIFACT}"]
+cd .//x:artifactId[text()="${CORE_LIBRARY_ARTIFACT}"]
 cd ../x:version
 set ${CORE_VERSION}
 save pom.xml
