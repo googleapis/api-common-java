@@ -27,21 +27,20 @@ scriptDir=$(realpath $(dirname "${BASH_SOURCE[0]}"))
 ## cd to the parent directory, i.e. the root of the git repo
 cd ${scriptDir}/..
 
-CORE_VERSION_TEXT=`gradle -q pV`
-CORE_VERSION=$(echo "${CORE_VERSION_TEXT}" | sed -e 's/\[.*\]$//g')
+CORE_VERSION==$( ./gradlew -q properties | grep '^version: ' | cut -d' ' -f2 )
 echo $CORE_VERSION
 
 # Publish api-common to local maven to make it available for downstream libraries
 ./gradlew build publishToMavenLocal
 
 # Round 1
-# Check this core java library against HEAD of java-shared dependencies
+# Check this java core library against HEAD of java-shared dependencies
 
 git clone "https://github.com/googleapis/java-shared-dependencies.git" --depth=1
 pushd java-shared-dependencies/first-party-dependencies
 
 # replace version
-xmllint --shell <(cat pom.xml) << EOF
+xmllint --shell pom.xml << EOF
 setns x=http://maven.apache.org/POM/4.0.0
 cd .//x:artifactId[text()="${CORE_LIBRARY_ARTIFACT}"]
 cd ../x:version
@@ -49,13 +48,11 @@ set ${CORE_VERSION}
 save pom.xml
 EOF
 
-# run dependencies script
 cd ..
 mvn -Denforcer.skip=true clean install
 
-SHARED_DEPS_VERSION_POM=pom.xml
 # Namespace (xmlns) prevents xmllint from specifying tag names in XPath
-SHARED_DEPS_VERSION=`sed -e 's/xmlns=".*"//' ${SHARED_DEPS_VERSION_POM} | xmllint --xpath '/project/version/text()' -`
+SHARED_DEPS_VERSION=`sed -e 's/xmlns=".*"//' pom.xml | xmllint --xpath '/project/version/text()' -`
 
 if [ -z "${SHARED_DEPS_VERSION}" ]; then
   echo "Version is not found in ${SHARED_DEPS_VERSION_POM}"
@@ -72,7 +69,7 @@ if [[ $CLIENT_LIBRARY == "bigtable" ]]; then
 fi
 
 # replace version
-xmllint --shell <(cat pom.xml) << EOF
+xmllint --shell pom.xml << EOF
 setns x=http://maven.apache.org/POM/4.0.0
 cd .//x:artifactId[text()="google-cloud-shared-dependencies"]
 cd ../x:version
