@@ -32,7 +32,7 @@ echo $CORE_VERSION
 
 # Publish api-common to local maven to make it available for downstream libraries
 ./gradlew publishToMavenLocal
-
+cd ..
 # Round 1
 # Check this java core library against HEAD of java-shared dependencies
 
@@ -50,10 +50,10 @@ EOF
 
 cd ..
 mvn -Denforcer.skip=true clean install
-
+cd ..
+SHARED_DEPS_VERSION_POM=pom.xml
 # Namespace (xmlns) prevents xmllint from specifying tag names in XPath
-SHARED_DEPS_VERSION=`sed -e 's/xmlns=".*"//' pom.xml | xmllint --xpath '/project/version/text()' -`
-echo $SHARED_DEPS_VERSION
+SHARED_DEPS_VERSION=`sed -e 's/xmlns=".*"//' ${SHARED_DEPS_VERSION_POM} | xmllint --xpath '/project/version/text()' -`
 
 if [ -z "${SHARED_DEPS_VERSION}" ]; then
   echo "Version is not found in ${SHARED_DEPS_VERSION_POM}"
