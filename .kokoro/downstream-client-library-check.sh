@@ -27,7 +27,7 @@ scriptDir=$(realpath $(dirname "${BASH_SOURCE[0]}"))
 ## cd to the parent directory, i.e. the root of the git repo
 cd ${scriptDir}/..
 
-CORE_VERSION==$( ./gradlew -q properties | grep '^version: ' | cut -d' ' -f2 )
+CORE_VERSION=$( ./gradlew -q properties | grep '^version: ' | cut -d' ' -f2 )
 echo $CORE_VERSION
 
 # Publish api-common to local maven to make it available for downstream libraries
