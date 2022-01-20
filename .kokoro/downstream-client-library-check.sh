@@ -31,7 +31,7 @@ CORE_VERSION=$( ./gradlew -q properties | grep '^version: ' | cut -d' ' -f2 )
 echo $CORE_VERSION
 
 # Publish api-common to local maven to make it available for downstream libraries
-./gradlew build publishToMavenLocal
+./gradlew publishToMavenLocal
 
 # Round 1
 # Check this java core library against HEAD of java-shared dependencies
