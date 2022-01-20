@@ -32,7 +32,7 @@ echo $CORE_VERSION
 
 # Publish api-common to local maven to make it available for downstream libraries
 ./gradlew publishToMavenLocal
-cd ..
+
 # Round 1
 # Check this java core library against HEAD of java-shared dependencies
 
@@ -59,7 +59,7 @@ if [ -z "${SHARED_DEPS_VERSION}" ]; then
   echo "Version is not found in ${SHARED_DEPS_VERSION_POM}"
   exit 1
 fi
-cd ..
+
 # Round 2
 # Check this BOM against java client libraries
 git clone "https://github.com/googleapis/java-${CLIENT_LIBRARY}.git" --depth=1

@@ -14,33 +14,33 @@ jobs:
         java: [8]
         repo:
         - accessapproval
-#        - accesscontextmanager
-#        - aiplatform
-#        - analytics-admin
-#        - analytics-data
-#        - api-gateway
-#        - apigee-connect
-#        - appengine-admin
-#        - area120-tables
-#        - artifact-registry
-#        - asset
-#        - assured-workloads
-#        - automl
-#        - bigquery
-#        - bigqueryconnection
-#        - bigquerydatatransfer
-#        - bigquerymigration
-#        - bigqueryreservation
-#        - bigtable
-#        - billing
-#        - billingbudgets
-#        - binary-authorization
-#        - channel
-#        - cloudbuild
-#        - compute
-#        - contact-center-insights
-#        - container
-#        - containeranalysis
+        - accesscontextmanager
+        - aiplatform
+        - analytics-admin
+        - analytics-data
+        - api-gateway
+        - apigee-connect
+        - appengine-admin
+        - area120-tables
+        - artifact-registry
+        - asset
+        - assured-workloads
+        - automl
+        - bigquery
+        - bigqueryconnection
+        - bigquerydatatransfer
+        - bigquerymigration
+        - bigqueryreservation
+        - bigtable
+        - billing
+        - billingbudgets
+        - binary-authorization
+        - channel
+        - cloudbuild
+        - compute
+        - contact-center-insights
+        - container
+        - containeranalysis
 #        - data-fusion
 #        - datacatalog
 #        - dataflow
@@ -138,9 +138,4 @@ jobs:
         java-version: ${{matrix.java}}
     - run: java -version
     - run: sudo apt-get install libxml2-utils
-    - uses: nick-invision/retry@v2
-      with:
-        timeout_minutes: 15
-        max_attempts: 3
-        retry_on: default
-        command: .kokoro/downstream-client-library-check.sh api-common ${{matrix.repo}}
+    - run: .kokoro/downstream-client-library-check.sh api-common ${{matrix.repo}}
