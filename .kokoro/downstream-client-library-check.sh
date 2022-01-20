@@ -32,24 +32,24 @@ echo $CORE_VERSION
 
 # Publish api-common to local maven to make it available for downstream libraries
 ./gradlew publishToMavenLocal
-#
-## Round 1
-## Check this java core library against HEAD of java-shared dependencies
-#
-#git clone "https://github.com/googleapis/java-shared-dependencies.git" --depth=1
-#pushd java-shared-dependencies/first-party-dependencies
-#
-## replace version
-#xmllint --shell pom.xml << EOF
-#setns x=http://maven.apache.org/POM/4.0.0
-#cd .//x:artifactId[text()="${CORE_LIBRARY_ARTIFACT}"]
-#cd ../x:version
-#set ${CORE_VERSION}
-#save pom.xml
-#EOF
-#
-#cd ..
-#mvn -Denforcer.skip=true clean install
+
+# Round 1
+# Check this java core library against HEAD of java-shared dependencies
+
+git clone "https://github.com/googleapis/java-shared-dependencies.git" --depth=1
+pushd java-shared-dependencies/first-party-dependencies
+
+# replace version
+xmllint --shell pom.xml << EOF
+setns x=http://maven.apache.org/POM/4.0.0
+cd .//x:artifactId[text()="${CORE_LIBRARY_ARTIFACT}"]
+cd ../x:version
+set ${CORE_VERSION}
+save pom.xml
+EOF
+
+cd ..
+mvn -Denforcer.skip=true clean install
 #
 ## Namespace (xmlns) prevents xmllint from specifying tag names in XPath
 #SHARED_DEPS_VERSION=`sed -e 's/xmlns=".*"//' pom.xml | xmllint --xpath '/project/version/text()' -`
