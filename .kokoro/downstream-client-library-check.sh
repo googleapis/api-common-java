@@ -50,35 +50,36 @@ EOF
 
 cd ..
 mvn -Denforcer.skip=true clean install
-#
-## Namespace (xmlns) prevents xmllint from specifying tag names in XPath
-#SHARED_DEPS_VERSION=`sed -e 's/xmlns=".*"//' pom.xml | xmllint --xpath '/project/version/text()' -`
-#
-#if [ -z "${SHARED_DEPS_VERSION}" ]; then
-#  echo "Version is not found in ${SHARED_DEPS_VERSION_POM}"
-#  exit 1
-#fi
-#
-## Round 2
-## Check this BOM against java client libraries
-#git clone "https://github.com/googleapis/java-${CLIENT_LIBRARY}.git" --depth=1
-#pushd java-${CLIENT_LIBRARY}
-#
-#if [[ $CLIENT_LIBRARY == "bigtable" ]]; then
-#  pushd google-cloud-bigtable-deps-bom
-#fi
-#
-## replace version
-#xmllint --shell pom.xml << EOF
-#setns x=http://maven.apache.org/POM/4.0.0
-#cd .//x:artifactId[text()="google-cloud-shared-dependencies"]
-#cd ../x:version
-#set ${SHARED_DEPS_VERSION}
-#save pom.xml
-#EOF
-#
-#if [[ $CLIENT_LIBRARY == "bigtable" ]]; then
-#  popd
-#fi
-#
-#mvn -Denforcer.skip=true clean install
+
+# Namespace (xmlns) prevents xmllint from specifying tag names in XPath
+SHARED_DEPS_VERSION=`sed -e 's/xmlns=".*"//' pom.xml | xmllint --xpath '/project/version/text()' -`
+echo $SHARED_DEPS_VERSION
+
+if [ -z "${SHARED_DEPS_VERSION}" ]; then
+  echo "Version is not found in ${SHARED_DEPS_VERSION_POM}"
+  exit 1
+fi
+
+# Round 2
+# Check this BOM against java client libraries
+git clone "https://github.com/googleapis/java-${CLIENT_LIBRARY}.git" --depth=1
+pushd java-${CLIENT_LIBRARY}
+
+if [[ $CLIENT_LIBRARY == "bigtable" ]]; then
+  pushd google-cloud-bigtable-deps-bom
+fi
+
+# replace version
+xmllint --shell pom.xml << EOF
+setns x=http://maven.apache.org/POM/4.0.0
+cd .//x:artifactId[text()="google-cloud-shared-dependencies"]
+cd ../x:version
+set ${SHARED_DEPS_VERSION}
+save pom.xml
+EOF
+
+if [[ $CLIENT_LIBRARY == "bigtable" ]]; then
+  popd
+fi
+
+mvn -Denforcer.skip=true clean install
