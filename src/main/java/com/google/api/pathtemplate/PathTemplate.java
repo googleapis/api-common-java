@@ -1014,16 +1014,16 @@ public class PathTemplate {
   }
 
   private static boolean isSegmentBeginOrEndInvalid(String seg) {
+    // A segment is invalid if it contains only one character and the character is a delimiter
     if (seg.length() == 1 && COMPLEX_DELIMITER_PATTERN.matcher(seg).find()) {
       return true;
     }
-    //A segment like .{well}-{known} or {well}-{known}. is invalid.
-    //A segment like .well-known or .well-{known} will be considered a literal hence is valid
-    return (COMPLEX_DELIMITER_PATTERN.matcher(seg.substring(0, 1)).find()
-            && seg.length() > 1
-            && seg.charAt(1) == '{')
+    // A segment can start with a delimiter, as long as there is no { right after it.
+    // A segment can end with a delimiter, as long as there is no } right before it.
+    // e.g. Invalid: .{well}-{known}, {well}-{known}-
+    // Valid: .well-known, .well-{known}, .-~{well-known}, these segments are all considered as literals for matching
+    return (COMPLEX_DELIMITER_PATTERN.matcher(seg.substring(0, 1)).find() && seg.charAt(1) == '{')
         || (COMPLEX_DELIMITER_PATTERN.matcher(seg.substring(seg.length() - 1)).find()
-            && seg.length() > 1
             && seg.charAt(seg.length() - 2) == '}');
   }
 
