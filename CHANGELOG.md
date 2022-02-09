@@ -1,5 +1,19 @@
 # Changelog
 
+### [2.1.4](https://github.com/googleapis/api-common-java/compare/v2.1.3...v2.1.4) (2022-02-07)
+
+
+### Bug Fixes
+
+* Support delimiters(_-.~) as start or end characters for a segment ([#338](https://github.com/googleapis/api-common-java/issues/338)) ([b2eba9e](https://github.com/googleapis/api-common-java/commit/b2eba9e7497fe13f7132e05a658ca936de5aa9c5))
+
+### [2.1.3](https://github.com/googleapis/api-common-java/compare/v2.1.2...v2.1.3) (2022-01-25)
+
+
+### Dependencies
+
+* update dependency com.google.errorprone:error_prone_annotations to v2.11.0 ([#331](https://github.com/googleapis/api-common-java/issues/331)) ([1a1910c](https://github.com/googleapis/api-common-java/commit/1a1910c1812375c98212d761034ed300a952f604))
+
 ### [2.1.2](https://www.github.com/googleapis/api-common-java/compare/v2.1.1...v2.1.2) (2022-01-06)
 
 
