@@ -1,6 +1,5 @@
 /*
  * Copyright 2016, Google Inc.
- * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are
@@ -176,36 +175,6 @@ public class PathTemplateTest {
   public void matchWithUnboundInMiddle() {
     PathTemplate template = PathTemplate.create("bar/**/foo/*");
     assertPositionalMatch(template.match("bar/foo/foo/foo/bar"), "foo/foo", "bar");
-  }
-
-  @Test
-  public void matchWithNamedBindings() {
-    PathTemplate template = PathTemplate.create("projects/*/{instance_id=instances/*}/**");
-    Map<String, String> actual =
-        template.match("projects/proj_foo/instances/instance_bar/table/table_baz");
-    Truth.assertThat(actual).containsEntry("instance_id", "instances/instance_bar");
-  }
-
-  @Test
-  public void matchFailWithNamedBindingsWhenPathMismatches() {
-    PathTemplate template = PathTemplate.create("projects/*/{instance_id=instances/*}/**");
-    Map<String, String> actual =
-        template.match("projects/proj_foo/instances_fail/instance_bar/table/table_baz");
-    Truth.assertThat(actual).isNull();
-  }
-
-  @Test
-  public void matchWithNamedBindingsThatHasOnlyWildcard() {
-    PathTemplate template = PathTemplate.create("profiles/{routing_id=*}");
-    Map<String, String> actual = template.match("profiles/prof_qux");
-    Truth.assertThat(actual).containsEntry("routing_id", "prof_qux");
-  }
-
-  @Test
-  public void matchFailWithNamedBindingsThatHasOnlyWildcardWhenPathMismatches() {
-    PathTemplate template = PathTemplate.create("profiles/{routing_id=*}");
-    Map<String, String> actual = template.match("profiles/prof_qux/fail");
-    Truth.assertThat(actual).isNull();
   }
 
   @Test
@@ -517,6 +486,9 @@ public class PathTemplateTest {
   @Test
   public void complexResourceMultipleDelimiters() {
     thrown.expect(ValidationException.class);
+    PathTemplate.create("projects/*/zones/.-~{zone_a}");
+    thrown.expectMessage(
+        String.format("parse error: invalid begin or end character in '%s'", ".-~{zone_a}"));
 
     PathTemplate.create("projects/*/zones/{zone_a}~.{zone_b}");
     thrown.expectMessage(
@@ -742,80 +714,6 @@ public class PathTemplateTest {
     String templateInstance = template.instantiate("name", "operations/3373707");
     Truth.assertThat(templateInstance).isEqualTo("v1/operations/3373707:cancel");
     Truth.assertThat(template.matches(templateInstance)).isTrue();
-  }
-
-  @Test
-  public void instantiateWithASegmentStartsWithADelimiter() {
-    PathTemplate pathTemplate =
-        PathTemplate.create(
-            "v1beta1/{parent=projects/*/locations/*/clusters/*}/.well-known/openid-configuration");
-    String pattern =
-        "v1beta1/projects/abc/locations/def/clusters/yte/.well-known/openid-configuration";
-    Truth.assertThat(pathTemplate.matches(pattern)).isTrue();
-  }
-
-  @Test
-  public void instantiateWithASegmentContainingComplexResourceNamesAndStartsWithADelimiter() {
-    thrown.expect(ValidationException.class);
-    PathTemplate.create(
-        "v1beta1/{parent=projects/*/locations/*/clusters/*}/.{well}-{known}/openid-configuration");
-    thrown.expectMessage(
-        String.format("parse error: invalid begin or end character in '%s'", ".{well}-{known}"));
-  }
-
-  @Test
-  public void
-      instantiateWithASegmentContainingNoComplexResourceNamesAndStartsWithMultipleDelimiters() {
-    PathTemplate pathTemplate =
-        PathTemplate.create(
-            "v1beta1/{parent=projects/*/locations/*/clusters/*}/.-~well-known/openid-configuration");
-    String pattern =
-        "v1beta1/projects/abc/locations/def/clusters/yte/.-~well-known/openid-configuration";
-    Truth.assertThat(pathTemplate.matches(pattern)).isTrue();
-  }
-
-  @Test
-  public void instantiateWithASegmentOnlyContainingOneDelimiter() {
-    thrown.expect(ValidationException.class);
-    PathTemplate.create("v1/publishers/{publisher}/books/.");
-    thrown.expectMessage(String.format("parse error: invalid begin or end character in '%s'", "."));
-  }
-
-  @Test
-  public void instantiateWithASegmentOnlyContainingOneCharacter() {
-    PathTemplate pathTemplate = PathTemplate.create("v1/publishers/{publisher}/books/a");
-    String pattern = "v1/publishers/o'reilly/books/a";
-    Truth.assertThat(pathTemplate.matches(pattern)).isTrue();
-  }
-
-  @Test
-  public void instantiateWithASegmentEndsWithADelimiter() {
-    PathTemplate pathTemplate =
-        PathTemplate.create(
-            "v1beta1/{parent=projects/*/locations/*/clusters/*}/well-known./openid-configuration");
-    String pattern =
-        "v1beta1/projects/abc/locations/def/clusters/yte/well-known./openid-configuration";
-    Truth.assertThat(pathTemplate.matches(pattern)).isTrue();
-  }
-
-  @Test
-  public void instantiateWithASegmentContainingComplexResourceNamesAndEndsWithADelimiter() {
-    thrown.expect(ValidationException.class);
-    PathTemplate.create(
-        "v1beta1/{parent=projects/*/locations/*/clusters/*}/{well}-{known}./openid-configuration");
-    thrown.expectMessage(
-        String.format("parse error: invalid begin or end character in '%s'", "{well}-{known}."));
-  }
-
-  @Test
-  public void
-      instantiateWithASegmentContainingNoComplexResourceNamesAndEndsWithMultipleDelimiters() {
-    PathTemplate pathTemplate =
-        PathTemplate.create(
-            "v1beta1/{parent=projects/*/locations/*/clusters/*}/well-known.-~/openid-configuration");
-    String pattern =
-        "v1beta1/projects/abc/locations/def/clusters/yte/well-known.-~/openid-configuration";
-    Truth.assertThat(pathTemplate.matches(pattern)).isTrue();
   }
 
   // Other
