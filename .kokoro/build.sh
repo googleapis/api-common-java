@@ -37,7 +37,10 @@ case ${JOB_TYPE} in
       -Dmaven.wagon.http.retryHandler.count=5 \
       test
     RETURN_CODE=$?
-    echo "Finished running unit tests"
+    ;;
+  clirr)
+    mvn -B -ntp -Denforcer.skip=true clirr:check
+    RETURN_CODE=$?
     ;;
   *) ;;
 
