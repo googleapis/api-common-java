@@ -33,7 +33,7 @@
     <licenses>
         <license>
             <name>BSD</name>
-            <url>https://github.com/googleapis/api-common-java/blob/master/LICENSE</url>
+            <url>https://github.com/googleapis/api-common-java/blob/main/LICENSE</url>
         </license>
     </licenses>
 
@@ -95,7 +95,6 @@
                 <configuration>
                     <archive>
                         <addMavenDescriptor>false</addMavenDescriptor>
-                        <index>false</index>
                         <manifestEntries>
                             <Automatic-Module-Name>com.google.api.apicommon</Automatic-Module-Name>
                         </manifestEntries>
