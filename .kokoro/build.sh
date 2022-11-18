@@ -23,6 +23,28 @@ cd ${scriptDir}/..
 # include common functions
 source ${scriptDir}/common.sh
 
+function setJava() {
+  export JAVA_HOME=$1
+  export PATH=${JAVA_HOME}/bin:$PATH
+}
+
+# This project requires compiling the classes in JDK 11 or higher for GraalVM
+# classes. Compiling this project with Java 8 or earlier would fail with "class
+# file has wrong version 55.0, should be 53.0" and "unrecognized --release 8
+# option" (set in build.gradle).
+if [ ! -z "${JAVA11_HOME}" ]; then
+  setJava "${JAVA11_HOME}"
+fi
+
+echo "Compiling using Java:"
+java -version
+mvn clean install -B -Dcheckstyle.skip -Dfmt.skip
+
+# We ensure the generated class files are compatible with Java 8
+if [ ! -z "${JAVA8_HOME}" ]; then
+  setJava "${JAVA8_HOME}"
+fi
+
 RETURN_CODE=0
 
 case ${JOB_TYPE} in

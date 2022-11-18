@@ -5,12 +5,39 @@ on:
   pull_request:
 name: ci
 jobs:
+  units-8:
+    name: units (8)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get current week within the year
+        id: date
+        run: echo "::set-output name=week_of_year::$(date +'%W' --utc)"
+      - uses: actions/checkout@v3
+      - uses: actions/setup-java@v3
+        with:
+          java-version: 8
+          distribution: zulu
+      - run: echo "JAVA8_HOME=${JAVA_HOME}" >> $GITHUB_ENV
+      - uses: actions/setup-java@v3
+        with:
+          java-version: 11
+          distribution: zulu
+      - run: echo "JAVA11_HOME=${JAVA_HOME}" >> $GITHUB_ENV
+      - uses: actions/cache@v3
+        id: mvn-cache
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-unified-${{ steps.date.outputs.week_of_year }}
+      - run: .kokoro/build.sh
+        env:
+          JOB_TYPE: test
+          JOB_NAME: units-8
   units:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        java: [ 8, 11, 17 ]
+        java: [ 11, 17 ]
     steps:
       - name: Get current week within the year
         id: date
