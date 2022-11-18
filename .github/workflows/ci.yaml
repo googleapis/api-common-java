@@ -7,12 +7,11 @@ name: ci
 jobs:
   units:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        java: [ 8, 11, 17 ]
     steps:
-      strategy:
-        fail-fast: false
-        matrix:
-          java: [ 8, 11, 17 ]
-      steps:
       - name: Get current week within the year
         id: date
         run: echo "::set-output name=week_of_year::$(date +'%W' --utc)"
