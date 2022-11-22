@@ -272,7 +272,7 @@ afterEvaluate {
               name = 'GoogleAPIs'
               email = 'googleapis@googlegroups.com'
               url = 'https://github.com/googleapis'
-              organization = 'Google, LLC'
+              organization = 'Google, Inc.'
               organizationUrl = 'https://www.google.com'
             }
           }
