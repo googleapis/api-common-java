@@ -106,7 +106,6 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <configuration>
                     <archive>
-                        <addMavenDescriptor>false</addMavenDescriptor>
                         <manifestEntries>
                             <Automatic-Module-Name>com.google.api.apicommon</Automatic-Module-Name>
                         </manifestEntries>
