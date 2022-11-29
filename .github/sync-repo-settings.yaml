@@ -8,6 +8,7 @@ branchProtectionRules:
       - units (8)
       - units (11)
       - units (17)
+      - lint
       - cla/google
     requiredApprovingReviewCount: 1
     requiresCodeOwnerReviews: true
@@ -18,6 +19,7 @@ branchProtectionRules:
       - units (8)
       - units (11)
       - units (17)
+      - lint
       - cla/google
     requiredApprovingReviewCount: 1
     requiresCodeOwnerReviews: true
@@ -28,6 +30,7 @@ branchProtectionRules:
       - units (8)
       - units (11)
       - units (17)
+      - lint
       - cla/google
     requiredApprovingReviewCount: 1
     requiresCodeOwnerReviews: true
@@ -38,6 +41,7 @@ branchProtectionRules:
       - units (8)
       - units (11)
       - units (17)
+      - lint
       - cla/google
     requiredApprovingReviewCount: 1
     requiresCodeOwnerReviews: true
@@ -48,6 +52,7 @@ branchProtectionRules:
       - units (8)
       - units (11)
       - units (17)
+      - lint
       - cla/google
     requiredApprovingReviewCount: 1
     requiresCodeOwnerReviews: true
@@ -58,6 +63,7 @@ branchProtectionRules:
       - units (8)
       - units (11)
       - units (17)
+      - lint
       - cla/google
     requiredApprovingReviewCount: 1
     requiresCodeOwnerReviews: true
