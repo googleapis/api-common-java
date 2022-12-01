@@ -38,7 +38,7 @@ fi
 
 echo "Compiling using Java:"
 java -version
-mvn clean install -B -ntp
+mvn clean install -B -ntp -DskipTests
 
 # We ensure the generated class files are compatible with Java 8
 if [ ! -z "${JAVA8_HOME}" ]; then
@@ -54,8 +54,6 @@ case ${JOB_TYPE} in
       -Dclirr.skip=true \
       -Denforcer.skip=true \
       -Dcheckstyle.skip=true \
-      -Dflatten.skip=true \
-      -Danimal.sniffer.skip=true \
       -Dmaven.wagon.http.retryHandler.count=5 \
       test
     RETURN_CODE=$?
