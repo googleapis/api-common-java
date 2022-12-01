@@ -38,15 +38,13 @@ mvn clean deploy -B \
   -Dgpg.homedir=${GPG_HOMEDIR} \
   -P release
 
-# TODO: The step below will release the artifact to maven central. Uncomment when ready
-
-## The job triggered by Release Please (release-trigger) has this AUTORELEASE_PR
-## environment variable. Fusion also lets us to specify this variable.
-#if [[ -n "${AUTORELEASE_PR}" ]]
-#then
-#  mvn nexus-staging:release -B \
-#    -DperformRelease=true \
-#    --settings=${MAVEN_SETTINGS_FILE}
-#else
-#  echo "AUTORELEASE_PR is not set. Not releasing."
-#fi
+# The job triggered by Release Please (release-trigger) has this AUTORELEASE_PR
+# environment variable. Fusion also lets us to specify this variable.
+if [[ -n "${AUTORELEASE_PR}" ]]
+then
+  mvn nexus-staging:release -B \
+    -DperformRelease=true \
+    --settings=${MAVEN_SETTINGS_FILE}
+else
+  echo "AUTORELEASE_PR is not set. Not releasing."
+fi
