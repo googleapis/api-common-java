@@ -38,7 +38,7 @@ fi
 
 echo "Compiling using Java:"
 java -version
-mvn clean install -B -Dcheckstyle.skip -Dfmt.skip
+mvn clean install -B -ntp
 
 # We ensure the generated class files are compatible with Java 8
 if [ ! -z "${JAVA8_HOME}" ]; then
@@ -61,8 +61,11 @@ case ${JOB_TYPE} in
     RETURN_CODE=$?
     ;;
   clirr)
-    mvn -B -ntp -Denforcer.skip=true clirr:check
+    mvn -B -ntp clirr:check
     RETURN_CODE=$?
     ;;
   *) ;;
 esac
+
+echo "exiting with ${RETURN_CODE}"
+exit ${RETURN_CODE}
