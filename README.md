@@ -3,7 +3,7 @@ API Common for Java
 
 [![Build Status](https://travis-ci.org/googleapis/api-common-java.svg?branch=main)](https://travis-ci.org/googleapis/api-common-java)
 
-🚌 In January 2023, this library has moved to https://github.com/googleapis/gapic-generator-java/tree/main/api-common-java[gapic-generator-java/api-common-java]. This repository will be archived in the future. Future releases will appear in the new repository (https://github.com/googleapis/gapic-generator-java/releases).
+🚌 In January 2023, this library has moved to [gapic-generator-java/api-common-java](https://github.com/googleapis/gapic-generator-java/tree/main/api-common-java). This repository will be archived in the future. Future releases will appear in the new repository (https://github.com/googleapis/gapic-generator-java/releases).
 The Maven artifact coordinates (com.google.api:api-common) remain the same.
 
 - [Documentation](https://googleapis.dev/java/api-common/latest/index.html)
