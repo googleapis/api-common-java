@@ -3,6 +3,7 @@ name: Bug report
 about: Create a report to help us improve
 
 ---
+This library has moved to [gapic-generator-java/api-common-java](https://github.com/googleapis/gapic-generator-java/tree/main/api-common-java) This repository will be archived in the future. 
 
 Thanks for stopping by to let us know something could be better!
 
