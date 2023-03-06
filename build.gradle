@@ -10,7 +10,7 @@ buildscript {
   }
   dependencies {
     classpath "gradle.plugin.com.github.sherter.google-java-format:google-java-format-gradle-plugin:0.9",
-      "io.github.gradle-nexus:publish-plugin:1.1.0"
+      "io.github.gradle-nexus:publish-plugin:1.3.0"
   }
 }
 apply plugin: 'java'
